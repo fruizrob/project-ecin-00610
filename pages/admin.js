@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import Home from '../components/Home'
 import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
+import Search from '../components/Search'
 
 export default class extends React.Component {
   render() {
@@ -22,10 +23,7 @@ export default class extends React.Component {
 
         <div className="container">
           <h1>Reservas</h1>
-          <div className="search">
-            <input type="text" placeholder="Usuario" />
-            <button>Buscar</button>
-          </div>
+          <Search />
         </div>
 
         <ReservationGrid /> 
@@ -35,11 +33,6 @@ export default class extends React.Component {
             padding: 0 15px;
             display: flex;
             justify-content: space-between
-          }
-          .search {
-            display: grid;
-            justify-content: center;
-            align-items: center;
           }
         `}</style>
 

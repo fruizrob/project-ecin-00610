@@ -7,6 +7,7 @@ export default class extends React.Component {
   render() {
     return (
       <Layout>
+
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />

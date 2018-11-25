@@ -5,11 +5,13 @@ export default class extends React.Component {
         <h1>Hotel Golden Valley</h1>
         <h3>La mejor estadía de tus vacaciones soñadas</h3>
 
+        
         <style jsx> {`
           .home {
             text-align: center;
           }
         `} </style>
+
       </div>
     )
   }
