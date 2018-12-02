@@ -1,21 +1,23 @@
+import Link from 'next/link'
+import Input from '../components/Input'
+
 export default class extends React.Component {
   render() {
     return (
       <div className="container">
+        <form className="form-container">
+          <h2>Login</h2>
+          <hr />
 
-        <h2>Login</h2>
+          <Input title="Usuario" type="text" placeholder="Ingresa tu usuario" />
+          <Input title="Contraseña" type="password" placeholder="Ingresa tu contraseña" />
+          <br />
 
-        <div>
-          <p>Usuario</p>
-          <input type="text" placeholder="Ingresa tu usuario"/> 
-        </div>
+          <Link href="/register"><a>No tiene una cuenta aún? Registrese!</a></Link>
 
-        <div>
-          <p>Contraseña</p>
-          <input type="password" placeholder="Ingresa tu contraseña"/> 
-        </div>
-
-        <button>Ingresar</button>
+          <p />
+          <button>Ingresar</button>
+        </form>
 
         <style jsx>{`
           h2 {
@@ -29,8 +31,12 @@ export default class extends React.Component {
             display: grid;
             justify-content: center;
             align-items: center;
-            width: 300px;
-            height: 300px;
+            width: 22%;
+            height: 70%;
+            padding: 10px 30px;
+          }
+          button {
+            width: 100%;
           }
         `}</style>
       </div>
