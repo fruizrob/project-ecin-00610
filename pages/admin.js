@@ -4,8 +4,21 @@ import Home from '../components/Home'
 import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
 import Search from '../components/Search'
+import AssignStaff from '../components/AssignStaff'
 
 export default class extends React.Component {
+
+  state = {
+    modalAssignStaff: false,
+  }
+
+  handleOpenAssignStaff = () => {
+    console.log("work")
+    this.setState({
+      modalAssignStaff: true,
+    })
+  }
+
   render() {
     return (
       <Layout>
@@ -27,6 +40,14 @@ export default class extends React.Component {
         </div>
 
         <ReservationGrid /> 
+
+        <button onClick={this.handleOpenAssignStaff}>Asignar Personal</button>
+        
+        {
+          this.state.modalAssignStaff &&
+          <AssignStaff />
+        }
+        
 
         <style jsx>{`
           .container  {
