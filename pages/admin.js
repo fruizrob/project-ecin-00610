@@ -4,25 +4,37 @@ import Home from '../components/Home'
 import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
 import Search from '../components/Search'
-import AssignStaff from '../components/AssignStaff'
 import Button from '../components/Button'
+
+//Modals
+import AssignStaff from '../components/AssignStaff'
+import PayReservation from '../components/PayReservation'
 
 export default class extends React.Component {
 
   state = {
     modalAssignStaff: false,
+    modalPayReservation: false,
   }
 
   handleOpenAssignStaff = () => {
-    console.log("open")
     this.setState({
       modalAssignStaff: true,
     })
   }
   handleCloseAssignStaff = () => {
-    console.log("close")
     this.setState({
       modalAssignStaff: false,
+    })
+  }
+  handleOpenPayReservation = () => {
+    this.setState({
+      modalPayReservation: true,
+    })
+  }
+  handleClosePayReservation = () => {
+    this.setState({
+      modalPayReservation: false,
     })
   }
 
@@ -50,7 +62,7 @@ export default class extends React.Component {
 
           <div className="buttons">
             <Button handleClick={this.handleOpenAssignStaff} title="Asignar Personal"/>
-            <Button handleClick={this.handleOpenAssignStaff} title="Cancelar reserva"/>
+            <Button handleClick={this.handleOpenPayReservation} title="Pagar reserva"/>
             <Button handleClick={this.handleOpenAssignStaff} title="Editar"/>
             <Button handleClick={this.handleOpenAssignStaff} title="Costo"/>
             <Button handleClick={this.handleOpenAssignStaff} title="Agregar consumo"/>
@@ -60,11 +72,14 @@ export default class extends React.Component {
           <ReservationGrid /> 
         </div>
         
-        
-        
         {
           this.state.modalAssignStaff &&
           <AssignStaff onClose={this.handleCloseAssignStaff}/>
+        }
+        
+        {
+          this.state.modalPayReservation &&
+          <PayReservation onClose={this.handleClosePayReservation}/>
         }
         
 

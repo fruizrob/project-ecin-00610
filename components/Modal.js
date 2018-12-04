@@ -19,7 +19,8 @@ export default class extends React.Component {
             justify-content: center;
           }
           .modal-content {
-            background: #8756ca;
+            background: #f6f6f6;
+            box-shadow: 1 px 2px 15px rgba(0, 0, 0, 0.5);
             display: grid;
             justify-content: center;
             align-items: center;
