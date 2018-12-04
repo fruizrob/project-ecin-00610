@@ -5,6 +5,7 @@ import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
 import Search from '../components/Search'
 import AssignStaff from '../components/AssignStaff'
+import Button from '../components/Button'
 
 export default class extends React.Component {
 
@@ -13,9 +14,15 @@ export default class extends React.Component {
   }
 
   handleOpenAssignStaff = () => {
-    console.log("work")
+    console.log("open")
     this.setState({
       modalAssignStaff: true,
+    })
+  }
+  handleCloseAssignStaff = () => {
+    console.log("close")
+    this.setState({
+      modalAssignStaff: false,
     })
   }
 
@@ -34,26 +41,46 @@ export default class extends React.Component {
           </div>
         </Header>
 
-        <div className="container">
+        <div className="container-top">
           <h1>Reservas</h1>
           <Search />
         </div>
 
-        <ReservationGrid /> 
+        <div className="container-mid">
 
-        <button onClick={this.handleOpenAssignStaff}>Asignar Personal</button>
+          <div className="buttons">
+            <Button handleClick={this.handleOpenAssignStaff} title="Asignar Personal"/>
+            <Button handleClick={this.handleOpenAssignStaff} title="Cancelar reserva"/>
+            <Button handleClick={this.handleOpenAssignStaff} title="Editar"/>
+            <Button handleClick={this.handleOpenAssignStaff} title="Costo"/>
+            <Button handleClick={this.handleOpenAssignStaff} title="Agregar consumo"/>
+            <Button handleClick={this.handleOpenAssignStaff} title="Asignar habitacion"/>
+          </div>
+
+          <ReservationGrid /> 
+        </div>
+        
+        
         
         {
           this.state.modalAssignStaff &&
-          <AssignStaff />
+          <AssignStaff onClose={this.handleCloseAssignStaff}/>
         }
         
 
         <style jsx>{`
-          .container  {
+          .container-top  {
             padding: 0 15px;
             display: flex;
             justify-content: space-between
+          }
+          .container-mid {
+            display: grid;
+            grid-template-columns: 20% 80%;
+          }
+          .buttons {
+            padding: 15px 0px 15px 15px;
+            margin-right: 5px;
           }
         `}</style>
 
@@ -61,3 +88,6 @@ export default class extends React.Component {
     )
   }
 }
+
+        // #C70039 -> Rojo
+        // #FFC300 -> Amarrillo
