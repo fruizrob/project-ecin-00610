@@ -1,0 +1,4 @@
+{
+  "dbUri": "postgres://postgres:postgres@localhost:5432/TEST",
+  "secret": "secreto"
+}
