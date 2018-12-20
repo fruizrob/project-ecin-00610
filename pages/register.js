@@ -6,9 +6,9 @@ import Register from '../components/Register'
 
 export default class extends React.Component {
 
-    onSubmit(){
-        console.log("funciona");
-    }
+  onSubmit(){
+      console.log("funciona");
+  }
 
   render() {
     return (

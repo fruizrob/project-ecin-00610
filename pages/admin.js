@@ -9,12 +9,20 @@ import Button from '../components/Button'
 //Modals
 import AssignStaff from '../components/AssignStaff'
 import PayReservation from '../components/PayReservation'
+import EditReservation from '../components/EditReservation'
+import Invoice from '../components/Invoice'
+import AssignRoom from '../components/AssignRoom'
+import AddConsumption from '../components/AddConsumption'
 
 export default class extends React.Component {
 
   state = {
     modalAssignStaff: false,
     modalPayReservation: false,
+    modalEditReservation: false,
+    modalInvoice: false,
+    modalAssignRoom: false,
+    modalAddConsumption: false,
   }
 
   handleOpenAssignStaff = () => {
@@ -37,6 +45,50 @@ export default class extends React.Component {
       modalPayReservation: false,
     })
   }
+  handleOpenEditReservation = () => {
+    this.setState({
+      modalEditReservation: true,
+    })
+  }
+  handleCloseEditReservation = () => {
+    this.setState({
+      modalEditReservation: false,
+    })
+  }
+  handleOpenInvoice = () => {
+    this.setState({
+      modalInvoice: true,
+    })
+  }
+  handleCloseInvoice = () => {
+    this.setState({
+      modalInvoice: false,
+    })
+  }
+
+  handleOpenAssignRoom = () => {
+    this.setState({
+      modalAssignRoom: true,
+    })
+  }
+
+  handleCloseAssignRoom = () => {
+    this.setState({
+      modalAssignRoom: false,
+    })
+  }
+
+  handleOpenAddConsumption = () => {
+    this.setState({
+      modalAddConsumption: true,
+    })
+  }
+
+  handleCloseAddConsumption = () => {
+    this.setState({
+      modalAddConsumption: false,
+    })
+  }
 
   render() {
     return (
@@ -44,11 +96,12 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
           <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Personal de Aaseo" rute="" />
+            <HeaderButton name="Personal de Aaseo" rute="/personal-toilet" />
             <HeaderButton name="Reporte" rute="" />
           </div>
           <div className="header-right">
             <HeaderButton name="Bienvenido/a" rute="/admin" />
+            <HeaderButton name="Admin Recepción" rute="/admin-reception" />
             <a>Logo Genial</a>
           </div>
         </Header>
@@ -63,10 +116,10 @@ export default class extends React.Component {
           <div className="buttons">
             <Button handleClick={this.handleOpenAssignStaff} title="Asignar Personal"/>
             <Button handleClick={this.handleOpenPayReservation} title="Pagar reserva"/>
-            <Button handleClick={this.handleOpenAssignStaff} title="Editar"/>
-            <Button handleClick={this.handleOpenAssignStaff} title="Costo"/>
-            <Button handleClick={this.handleOpenAssignStaff} title="Agregar consumo"/>
-            <Button handleClick={this.handleOpenAssignStaff} title="Asignar habitacion"/>
+            <Button handleClick={this.handleOpenEditReservation} title="Editar"/>
+            <Button handleClick={this.handleOpenInvoice} title="Costo"/>
+            <Button handleClick={this.handleOpenAddConsumption} title="Agregar consumo"/>
+            <Button handleClick={this.handleOpenAssignRoom} title="Asignar habitacion"/>
           </div>
 
           <ReservationGrid /> 
@@ -80,6 +133,26 @@ export default class extends React.Component {
         {
           this.state.modalPayReservation &&
           <PayReservation onClose={this.handleClosePayReservation}/>
+        }
+
+        {
+          this.state.modalEditReservation &&
+          <EditReservation onClose={this.handleCloseEditReservation}/>
+        }
+
+        {
+          this.state.modalInvoice &&
+          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleCloseInvoice} />
+        }
+
+        {
+          this.state.modalAssignRoom &&
+          <AssignRoom onClose={this.handleCloseAssignRoom} />
+        }
+
+        {
+          this.state.modalAddConsumption && 
+          <AddConsumption onClose={this.handleCloseAddConsumption} />
         }
         
 

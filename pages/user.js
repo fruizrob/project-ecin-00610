@@ -10,9 +10,8 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Realizar Reserva" rute="" />
-            <HeaderButton name="Ver Reserva" rute="/user-reservation" />
-            <HeaderButton name="Login" rute="/login" />
+            <HeaderButton name="Reservar" rute="/reserve" />
+            <HeaderButton name="Ver Reservas" rute="/user-reservation" />
           </div>
           <div className="header-right">
             <HeaderButton name="Bienvenido/a" rute="/user" />
