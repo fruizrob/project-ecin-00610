@@ -12,10 +12,10 @@ export default class extends React.Component {
                     <hr />
                     <p>Rut: <input type="text" placeholder="ej: 11111111-1" pattern="[0-9]{7,}-(k|K|[0-9])$" maxLength="10" required /></p>
                     <p>Nombre: <input type="text" placeholder="Nombre completo" pattern="[A-Z]{0,1}[a-z]+\s[A-Z]{0,1}[a-z]+(\s[A-Z]{0,1}[a-z]+){0,2}$" required /></p>
-                    <p>Nick: <input type="text" placeholder="Nombre usuario" required /></p>
                     <p>Contraseña: <input type="password" placeholder="Ingrese su contraseña" required /></p>
                     <p>Corroborar: <input type="password" placeholder="Corroborar contraseña" required /></p>
-                    <p>Email: <input type="text" placeholder="Ingrese email" pattern="(.+)@(hotmail|live|yahoo|gmail|outlook)([.]com|[.]es)$" /></p>
+                    <p>Dirección: <input type="text" placeholder="Dirección particular" required /></p>
+                    <p>Teléfono: <input type="text" placeholder="Número de contacto" pattern="[+56]{0,1}[0-9]{6,9}$" /></p>
                     <button type="submit">Agregar usuario</button>
                 </form>
 

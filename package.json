@@ -18,13 +18,17 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "isomorphic-fetch": "^2.2.1",
     "next": "^7.0.2",
+    "passport": "^0.4.0",
+    "passport-local-sequelize": "^0.8.0",
     "pg": "^7.7.1",
     "pg-promise": "^8.5.4",
     "react": "^16.6.3",
     "react-data-grid": "^5.0.5",
     "react-dom": "^16.6.3",
-    "react-select": "^2.1.2"
+    "react-select": "^2.1.2",
+    "sequelize": "^4.42.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"

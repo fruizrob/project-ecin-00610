@@ -2,9 +2,72 @@ import Header from '../components/Header'
 import Layout from '../components/Layout'
 import HeaderButton from '../components/HeaderButton'
 import Login from '../components/Login'
+import 'isomorphic-fetch'
 
 export default class extends React.Component {
+
+  state = {
+    rut: '',
+    password: '',
+  }
+
+
+  submitTest = () => {
+    console.log("click");
+    let form = {
+      rutpasaporte: this.state.rut,
+      password: this.state.password,
+    }
+
+    const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
+    let data = serialize(form)
+
+    console.log(data);
+
+    fetch('/auth/login', {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
+  }
+
+
+  iniciarSesion = () => {
+    
+    console.log(rutpasaporte + " " + password)
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/auth/test');
+
+    console.log(formData);
+
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if(xhr.status === 200) {
+        console.log("Respuesta: " + xhr.response);
+      }
+    });
+    xhr.send(formData);
+  }
+
+  handleRut = (ev) => {
+    this.setState({
+      rut: ev.target.value,
+    })
+  }
+
+  handlePassword = (ev) => {
+    this.setState({
+      password: ev.target.value,
+    })
+  }
+
+  
   render() {
+    const { rut, password } = this.state;
     return (
       <Layout>
         <Header title="Home">
@@ -18,7 +81,7 @@ export default class extends React.Component {
         </Header>
 
         <div className="login">
-          <Login />
+          <Login handleRut={this.handleRut} handlePassword={this.handlePassword} handleClick={this.submitTest} />
         </div>
 
         <style jsx>{`

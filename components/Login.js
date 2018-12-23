@@ -2,22 +2,22 @@ import Link from 'next/link'
 import Input from '../components/Input'
 
 export default class extends React.Component {
+
   render() {
     return (
       <div className="container">
-        <form className="form-container">
+        <div className="form-container">
           <h2>Login</h2>
           <hr />
 
-          <Input title="Usuario" type="text" placeholder="Ingresa tu usuario" />
-          <Input title="Contraseña" type="password" placeholder="Ingresa tu contraseña" />
+          <Input handleChange={this.props.handleRut} title="Usuario" type="text" placeholder="Ingresa tu usuario" />
+          <Input handleChange={this.props.handlePassword} title="Contraseña" type="password" placeholder="Ingresa tu contraseña" />
           <br />
 
           <Link href="/register"><a>No tiene una cuenta aún? Registrese!</a></Link>
 
-          <p />
-          <button>Ingresar</button>
-        </form>
+          <button onClick={this.props.handleClick} >Ingresar</button>
+        </div>
 
         <style jsx>{`
           h2 {
@@ -37,6 +37,15 @@ export default class extends React.Component {
           }
           button {
             width: 100%;
+          }
+          a{
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 20px;
+            color: darkgrey;
+          }
+          a:hover{
+            color: #fff;
           }
         `}</style>
       </div>

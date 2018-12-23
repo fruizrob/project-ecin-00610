@@ -5,6 +5,7 @@ import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
 import Search from '../components/Search'
 import Button from '../components/Button'
+import 'isomorphic-fetch';
 
 //Modals
 import AssignStaff from '../components/AssignStaff'
@@ -15,6 +16,18 @@ import AssignRoom from '../components/AssignRoom'
 import AddConsumption from '../components/AddConsumption'
 
 export default class extends React.Component {
+
+  static async getInitialProps({ res }) {
+    try {
+      let req = await fetch('/api/probando')
+      let lista = await req.json()
+      console.log(lista);
+      return { lista, statusCode: 200 }
+    } catch (e) {
+      res.statusCode = 503
+      return { lista: null, statusCode: 503 }
+    }
+  }
 
   state = {
     modalAssignStaff: false,

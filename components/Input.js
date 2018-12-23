@@ -4,7 +4,7 @@ export default class extends React.Component {
       return (
         <div className="container">
           <p>{title}</p>
-          <input type={type} placeholder={placeholder} /> 
+          <input onChange={this.props.handleChange} type={type} placeholder={placeholder} /> 
     
           <style jsx>{`
             .container {

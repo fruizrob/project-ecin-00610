@@ -2,30 +2,11 @@ import Header from '../components/Header'
 import Layout from '../components/Layout'
 import Home from '../components/Home'
 import HeaderButton from '../components/HeaderButton'
+import 'isomorphic-fetch'
 
 export default class extends React.Component {
 
-  ejecutarRequest = () => {
-    let xhr = new XMLHttpRequest();
-    let respuesta = [];
-    xhr.open('get', '/api/probando');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        let data = xhr.response.data;
-        data.map(d => {
-          respuesta.push(d);
-        });
-        console.log(respuesta);
-      } else {
-        console.log("error");
-      }
-    });
-    xhr.send();
-  }
-
   render() {
-    const user = true 
     return (
       <Layout>
         <Header title="Home">
@@ -42,7 +23,7 @@ export default class extends React.Component {
           </div>
         </Header>
     
-        <button title="Click" onClick={this.ejecutarRequest} /> 
+        <button title="Click" onClick={this.submitTest} /> 
         <Home />
 
       </Layout>
