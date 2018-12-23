@@ -7,7 +7,7 @@ const db = new Sequelize(config.dbUri, { logging: false });
 
 // Define the User model.
 const User = db.define(
-  "user",
+  'user',
   {
     rutpasaporte: {
       type: Sequelize.STRING,

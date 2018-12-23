@@ -60,18 +60,6 @@ app.prepare().then(() => {
     return app.render(req, res, '/')
   })
 
-  server.post('/auth/login', Passport.authenticate('local'), (req, res) => {
-    return res.json({
-      success: true,
-      message: 'Ha logrado ingresar al sistema con éxito!',
-      user: req.user
-    });
-  });
-
-  server.get('/user', (req, res) => {
-    return app.render(req, res, '/user')
-  })
-
   server.get('/personal-toilet', (req, res) => {
     return app.render(req, res, '/personal-toilet')
   })
