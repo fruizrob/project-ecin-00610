@@ -6,17 +6,19 @@ export default class extends React.Component {
   render() {
     return (
       <Modal className="modal-container">
-        <h2>Editar</h2>
-        <p>Habitacion</p>
-        <input />
-        <p>Tipo</p>
-        <input />
+        <h2>Editar<hr/></h2>
+        <p>Habitacion <input /></p>
+        <p>Tipo <input /></p>
         <Button handleClick={this.props.onClose} title="Editar" />
 
         <style jsx>{`
-          h2, input {
+          input {
+            width: 50%;
+          }
+          h2{
             text-align: center;
             margin: 15px;
+            width: 90%;
           }
         `}</style>
 

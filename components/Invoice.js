@@ -6,7 +6,7 @@ export default class extends React.Component {
     const { costoAlojamiento, costoConsumo } = this.props
     return (
       <Modal className="modal-container">
-        <h2>Asignar Personal</h2>
+        <h2>Costo<hr/></h2>
         <p>Alojamiento: ${costoAlojamiento}</p>
         <p>Consumo: ${costoConsumo}</p>
         <p>Costo total: ${costoConsumo+costoAlojamiento}</p>
@@ -15,6 +15,7 @@ export default class extends React.Component {
         <style jsx>{`
           h2, input, select {
             margin: 15px;
+            min-width: 200px;
           }
         `}</style>
 

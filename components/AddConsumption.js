@@ -5,14 +5,15 @@ export default class extends React.Component {
   render(){
     return (
       <Modal>
-        <h2>Añadir consumo</h2>
-        <p>Pedido</p>
-        <select>
-          <option>texto 1</option>
-          <option>texto 2</option>
-          <option>texto 3</option>
-        </select>
-        <p>Fecha: 08/12/2018</p>
+        <h2>Añadir consumo<hr/></h2>
+        <p>Pedido:
+          <select>
+            <option>texto 1</option>
+            <option>texto 2</option>
+            <option>texto 3</option>
+          </select>
+        </p>
+        <p>Fecha: <input type="date" /></p>
         <Button handleClick={this.props.onClose} title="Añadir" />
 
         <style jsx>{`
@@ -20,9 +21,11 @@ export default class extends React.Component {
               text-align: center;
               margin: 15px;
             }
+            select{
+              width: 58%;
+            }
         `}</style>
       </Modal>
-
     )
   }
 }

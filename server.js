@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const bodyParser = require('body-parser')
 const config = require('./config.json');
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -31,6 +32,7 @@ app.prepare().then(() => {
     cookie: {httpOnly: true, secure: false}
   }));
 
+  server.use(bodyParser.urlencoded({ extended: false }));
     // Pass the passport middleware
   server.use(Passport.initialize());
   server.use(Passport.session());
@@ -68,6 +70,10 @@ app.prepare().then(() => {
 
   server.get('/user', (req, res) => {
     return app.render(req, res, '/user')
+  })
+
+  server.get('/personal-toilet', (req, res) => {
+    return app.render(req, res, '/personal-toilet')
   })
 
   server.get('*', (req, res) => {

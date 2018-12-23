@@ -5,7 +5,7 @@ export default class extends React.Component {
   render(){
     return (
       <Modal className="modal-container">
-        <h2>Asignar Personal</h2>
+        <h2>Asignar Personal<hr/></h2>
         <input />
         <select>
           <option>texto 1</option>

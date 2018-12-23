@@ -47,7 +47,7 @@ User.update = (id, password, cb) => {
         if (err)
           return cb(err);
 
-        user['rut'] = id;
+        user['rutpasaporte'] = id;
 
         user.save()
           .then(() => {

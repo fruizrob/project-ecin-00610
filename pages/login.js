@@ -30,8 +30,8 @@ export default class extends React.Component {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
-    }).catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+    }).catch(err => console.error('Error:', err))
+      .then(res => console.log('Success:', res));
   }
 
 

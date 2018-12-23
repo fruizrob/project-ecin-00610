@@ -21,7 +21,7 @@ export default class extends React.Component {
           </div>
         </Header>
         
-        <h1>Mis reservas</h1>
+        <h1>Mis reservas<hr/></h1>
         <ReservationGrid />
 
         <style jsx>{`

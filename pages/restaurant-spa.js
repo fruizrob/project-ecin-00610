@@ -11,7 +11,7 @@ const columns = [
   { key: "desc", name: "Descripción", editable: false },
   { key: "id", name: "ID", editable: false },
   { key: "fecha", name: "Fecha", editable: false },
-  { key: "precio", name: "Precio", editable: false}
+  { key: "precio", name: "Precio", editable: false }
 ];
 
 const rows = [

@@ -21,7 +21,8 @@ export default class extends React.Component {
             grid-template-columns: 50% 50%;
             color: #fff;
             background: #8756ca;
-            padding: 15px;
+            padding: 10px;
+            min-width: 600px;
           }
         `}</style>
       </div>

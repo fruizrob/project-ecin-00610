@@ -10,6 +10,8 @@ import Button from '../components/Button'
 import PayReservation from '../components/PayReservation'
 import EditReservation from '../components/EditReservation'
 import Invoice from '../components/Invoice'
+import AssignRoom from '../components/AssignRoom'
+import AddConsumption from '../components/AddConsumption'
 
 export default class extends React.Component {
 
@@ -17,6 +19,8 @@ export default class extends React.Component {
     modalPayReservation: false,
     modalEditReservation: false,
     modalInvoice: false,
+    modalAssignRoom: false,
+    modalAddConsumption: false,
   }
 
   handleOpenPayReservation = () => {
@@ -50,6 +54,30 @@ export default class extends React.Component {
     })
   }
 
+  handleOpenAssignRoom = () => {
+    this.setState({
+      modalAssignRoom: true,
+    })
+  }
+
+  handleCloseAssignRoom = () => {
+    this.setState({
+      modalAssignRoom: false,
+    })
+  }
+
+  handleOpenAddConsumption = () => {
+    this.setState({
+      modalAddConsumption: true,
+    })
+  }
+
+  handleCloseAddConsumption = () => {
+    this.setState({
+      modalAddConsumption: false,
+    })
+  }
+
   render() {
     return (
       <Layout>
@@ -74,8 +102,8 @@ export default class extends React.Component {
             <Button handleClick={this.handleOpenPayReservation} title="Pagar reserva" />
             <Button handleClick={this.handleOpenEditReservation} title="Editar" />
             <Button handleClick={this.handleOpenInvoice} title="Costo" />
-            <Button handleClick={this.handleOpenInvoice} title="Agregar consumo" />
-            <Button handleClick={this.handleOpenInvoice} title="Asignar habitacion" />
+            <Button handleClick={this.handleOpenAddConsumption} title="Agregar consumo"/>
+            <Button handleClick={this.handleOpenAssignRoom} title="Asignar habitacion"/>
           </div>
 
           <ReservationGrid />
@@ -99,6 +127,16 @@ export default class extends React.Component {
         {
           this.state.modalInvoice &&
           <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleCloseInvoice} />
+        }
+
+        {
+          this.state.modalAssignRoom &&
+          <AssignRoom onClose={this.handleCloseAssignRoom} />
+        }
+
+        {
+          this.state.modalAddConsumption && 
+          <AddConsumption onClose={this.handleCloseAddConsumption} />
         }
 
 

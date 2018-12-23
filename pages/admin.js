@@ -19,7 +19,7 @@ export default class extends React.Component {
 
   static async getInitialProps({ res }) {
     try {
-      let req = await fetch('/api/probando')
+      let req = await fetch('/api/selectCliente')
       let lista = await req.json()
       console.log(lista);
       return { lista, statusCode: 200 }
@@ -109,7 +109,7 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
           <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Personal de Aaseo" rute="/personal-toilet" />
+            <HeaderButton name="Personal de Aseo" rute="/personal-toilet" />
             <HeaderButton name="Reporte" rute="" />
           </div>
           <div className="header-right">
