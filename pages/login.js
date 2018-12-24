@@ -11,9 +11,7 @@ export default class extends React.Component {
     password: '',
   }
 
-
-  submitTest = () => {
-    console.log("click");
+  initSession = async () => {
     let form = {
       rutpasaporte: this.state.rut,
       password: this.state.password,
@@ -22,16 +20,15 @@ export default class extends React.Component {
     const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
     let data = serialize(form)
 
-    console.log(data);
-
-    fetch('/auth/login', {
+    const res = await fetch('/auth/login', {
       method: 'POST',
       body: data,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
-    }).catch(err => console.error('Error:', err))
-      .then(res => console.log('Success:', res));
+    })
+    const json = await res.json();
+    window.location.assign(json.successRedirect)
   }
 
 
@@ -81,7 +78,7 @@ export default class extends React.Component {
         </Header>
 
         <div className="login">
-          <Login handleRut={this.handleRut} handlePassword={this.handlePassword} handleClick={this.submitTest} />
+          <Login handleRut={this.handleRut} handlePassword={this.handlePassword} handleClick={this.initSession} />
         </div>
 
         <style jsx>{`

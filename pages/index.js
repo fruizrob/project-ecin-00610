@@ -6,6 +6,43 @@ import 'isomorphic-fetch'
 
 export default class extends React.Component {
 
+  componentWillMount = () => {
+    fetch('http://localhost:3000/api/userInfo')
+      .then(resp => resp.json()) // Transform the data into json
+      .then(data => {
+        if (data.user) {
+          let { nompersona: name, rutpasaporte: rut, user_type_id: type } = data.user
+          switch (type) {
+            // ADMIN
+            case 'AD':
+              window.location.assign('/admin')
+              break;
+            // USER
+            case 'UR':
+              window.location.assign('/user')
+              break;
+            // RECEPTION
+            case 'RC':
+              window.location.assign('/admin-reception')
+              break;
+            // PERSONAL TOILET
+            case 'PT':
+              window.location.assign('/personal-toilet')
+              break;
+            // RESTAURANT & SPA
+            case 'RS':
+              window.location.assign('/restaurant-spa')
+              break;
+            default:
+              
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   render() {
     return (
       <Layout>
@@ -23,7 +60,7 @@ export default class extends React.Component {
           </div>
         </Header>
     
-        <button title="Click" onClick={this.submitTest} /> 
+        <button title="Click" onClick={this.test} /> 
         <Home />
 
       </Layout>
