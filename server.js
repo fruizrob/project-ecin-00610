@@ -41,6 +41,7 @@ app.prepare().then(() => {
   Passport.use(user.createStrategy());
   Passport.serializeUser(user.serializeUser());
   Passport.deserializeUser(user.deserializeUser());
+
   const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -56,12 +57,79 @@ app.prepare().then(() => {
   server.use('/api' ,isAuthenticated, apiRoutes); // is authenticated
   server.use('/auth', authRoutes);
 
+  function requireRole(role) {
+    return function (req, res, next) {
+      if (req.isAuthenticated() && req.user.user_type_id === role) {
+        next();
+      } else {
+        res.redirect('/'); 
+      }
+    }
+  }
+
+  function isLoggedIn() {
+    return function (req, res, next) {
+      if (!req.isAuthenticated()) {
+        next();
+      } else {
+        res.redirect('/');
+      }
+    }
+  }
+
+  function reserveAndPayPermissions(){
+    return function (req, res, next) {
+      if (req.isAuthenticated() && (req.user.user_type_id === "AD" || req.user.user_type_id === "RC" || req.user.user_type_id === "US")) {
+        next();
+      } else {
+        res.redirect('/');
+      }
+    }
+  }
+
+  server.get("/admin", requireRole("AD"), (req, res) => {
+    return app.render(req, res, '/admin')
+  });
+
+  server.get("/user", requireRole("US"), (req, res) => {
+    return app.render(req, res, '/user')
+  });
+
+  server.get("/user-reservation", requireRole("US"), (req, res) => {
+    return app.render(req, res, '/user-reservation')
+  });
+
+  server.get("/personal-toilet", requireRole("PT"), (req, res) => {
+    return app.render(req, res, '/')
+  });
+
+  server.get("/admin-reception", requireRole("RC"), (req, res) => {
+    return app.render(req, res, '/admin-reception')
+  });
+
+  server.get("/restaurant-spa", requireRole("RS"), (req, res) => {
+    return app.render(req, res, '/')
+  });
+
+  server.get("/login", isLoggedIn(), (req, res) => {
+    return app.render(req, res, '/login')
+  });
+
+  server.get("/register", isLoggedIn(), (req, res) => {
+    return app.render(req, res, '/register')
+  });
+
+  server.get("/reserve", reserveAndPayPermissions(), (req, res) => {
+    return app.render(req, res, '/reserve')
+  });
+
+  server.get("/register-payment", reserveAndPayPermissions(), (req, res) => {
+    return app.render(req, res, '/register-payment')
+  });
+
+
   server.get('/', (req, res) => {
     return app.render(req, res, '/')
-  })
-
-  server.get('/personal-toilet', (req, res) => {
-    return app.render(req, res, '/personal-toilet')
   })
 
   server.get('*', (req, res) => {
