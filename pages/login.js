@@ -31,25 +31,6 @@ export default class extends React.Component {
     window.location.assign(json.successRedirect)
   }
 
-
-  iniciarSesion = () => {
-    
-    console.log(rutpasaporte + " " + password)
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/auth/test');
-
-    console.log(formData);
-
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if(xhr.status === 200) {
-        console.log("Respuesta: " + xhr.response);
-      }
-    });
-    xhr.send(formData);
-  }
-
   handleRut = (ev) => {
     this.setState({
       rut: ev.target.value,

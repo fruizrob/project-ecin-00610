@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import Router from 'next/router'
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import Home from '../components/Home'
@@ -15,28 +17,28 @@ export default class extends React.Component {
           switch (type) {
             // ADMIN
             case 'AD':
-              window.location.assign('/admin')
+              Router.push('/admin')
               break;
             // USER
-            case 'UR':
-              window.location.assign('/user')
+            case 'US':
+              Router.push('/user')
               break;
             // RECEPTION
             case 'RC':
-              window.location.assign('/admin-reception')
+              Router.push('/admin-reception')
               break;
             // PERSONAL TOILET
             case 'PT':
-              window.location.assign('/personal-toilet')
+              Router.push('/personal-toilet')
               break;
             // RESTAURANT & SPA
             case 'RS':
-              window.location.assign('/restaurant-spa')
+              Router.push('/restaurant-spa')
               break;
             default:
               
           }
-        }
+        } 
       })
       .catch(err => {
         console.log(err);
@@ -49,18 +51,13 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Realizar Reserva" rute="/reserve" />
             <HeaderButton name="Login" rute="/login"/>
-            <HeaderButton name="Servicios extra" rute="/restaurant-spa" />
           </div>
           <div className="header-right">
-            <HeaderButton name="Vista Usuario" rute="/user" />
-            <HeaderButton name="Vista Admin" rute="/admin" />
             <a>Logo Genial</a>
           </div>
         </Header>
-    
-        <button title="Click" onClick={this.test} /> 
+
         <Home />
 
       </Layout>

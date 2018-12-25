@@ -11,13 +11,12 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Realizar Reserva" rute="" />
-            <HeaderButton name="Ver Reserva" rute="" />
-            <HeaderButton name="Login" rute="/login" />
+            <HeaderButton name="Realizar Reserva" rute="/reserve" />
+            <HeaderButton name="Ver Reserva" rute="/user-reservation" />
           </div>
           <div className="header-right">
             <HeaderButton name="Bienvenido/a" rute="/user" />
-            <a>Logo Genial</a>
+            <HeaderButton name="Cerrar Sesión" rute="/auth/logout"/>
           </div>
         </Header>
         

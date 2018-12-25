@@ -19,8 +19,8 @@ router.get('/logout', (req, res) => {
 
 router.get('/register', (req, res) => {
   User.register(
-    {rutpasaporte: '19.565.892-7', user_type_id: 'AD', nompersona: 'Felipe Ruiz Robledo'},
-    'dorat',
+    {rutpasaporte: '1', user_type_id: 'AD', nompersona: 'Administrador'},
+    '1',
     (err, user) => 
     {
       console.log(err);

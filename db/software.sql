@@ -34,45 +34,60 @@ CREATE TABLE  tipocargoextra  (
 );
 CREATE TABLE  tipohabitacion  (
    codTipoHab  integer   ,
-   nomTipoHab  varchar(30),
+   nomTipoHab  text,
    PRIMARY KEY ( codTipoHab )
 );
-CREATE TABLE  "user"  (
-    rutPasaporte  text,
-    nomPersona  text,
-    user_type_id text,
-    pasword_hash text,
-    pasword_salt text,
-    PRIMARY KEY (rutPasaporte),
-    FOREIGN KEY (user_type_id) references user_type()
+CREATE TABLE  estado  (
+   codEstado  integer,
+   nomEstado  text,
+   PRIMARY KEY( codEstado )
+);
+CREATE TABLE  formapago  (
+   codFormaPago  integer,
+   nomFormaPago  text,
+   PRIMARY KEY ( codFormaPago )
+);
+CREATE TABLE  piso  (
+   numPiso  integer,
+   PRIMARY KEY (numPiso)
 );
 CREATE TABLE user_type (
   id text,
   type text,
   PRIMARY KEY (id)
 );
+CREATE TABLE  "user"  (
+    rutPasaporte  text,
+    nomPersona  text,
+    password text,
+    user_type_id text,
+    password_hash text,
+    password_salt text,
+    PRIMARY KEY (rutPasaporte),
+    FOREIGN KEY (user_type_id) references user_type(id)
+);
 CREATE TABLE  cliente  (
-   rutPasaporte  varchar(10),
-   direccionParticular  varchar(60),
+   rutPasaporte  text,
+   direccionParticular  text,
    telefono  integer,
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
 
 );
 CREATE TABLE  delimpieza  (
-   rutPasaporte  varchar(10),
+   rutPasaporte  text,
    PRIMARY KEY( rutPasaporte ),
-   FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
+   FOREIGN KEY ( rutPasaporte ) references empleado( rutPasaporte )
 );
 CREATE TABLE  derecepcion  (
-   rutPasaporte  varchar(10),
+   rutPasaporte  text,
    PRIMARY KEY( rutPasaporte ),
-   FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
+   FOREIGN KEY ( rutPasaporte ) references empleado( rutPasaporte )
 );
 CREATE TABLE  empleado  (
-   rutPasaporte  varchar(10),
-   password  varchar(30),
-   tipoEmpleado  varchar(30),
+   rutPasaporte  text,
+   password  text,
+   tipoEmpleado  text,
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
 );
@@ -84,30 +99,16 @@ CREATE TABLE  habitacion  (
    FOREIGN KEY ( codTipoHab ) references tipohabitacion(codTipoHab),
    FOREIGN KEY ( numPiso ) references piso(numPiso)
 );
-CREATE TABLE  estado  (
-   codEstado  integer,
-   nomEstado  varchar(30),
-   PRIMARY KEY( codEstado )
-);
-CREATE TABLE  formapago  (
-   codFormaPago  integer,
-   nomFormaPago  varchar(30),
-   PRIMARY KEY ( codFormaPago )
-);
-CREATE TABLE  piso  (
-   numPiso  integer,
-   PRIMARY KEY (numPiso)
-);
 CREATE TABLE  reserva  (
    codReserva  integer,
-   formaReserva  varchar(30),
+   formaReserva  text,
    fechaInicio  date,
    fechaFin  date,
    requerimientosAdicionales  text,
    numTarjetaCredito  integer,
-   bancoTarjetaCredito  varchar(50),
-   rutPasaporte  varchar(10),
-   rutRecepcion  varchar(15), 
+   bancoTarjetaCredito  text,
+   rutPasaporte  text,
+   rutRecepcion  text, 
    PRIMARY KEY ( codReserva ),
    FOREIGN KEY ( rutPasaporte ) references cliente ( rutPasaporte ),
    FOREIGN KEY ( rutRecepcion ) references derecepcion (rutPasaporte)
@@ -119,10 +120,11 @@ CREATE TABLE cargoextra (
    hora  date,
    minuto  date,
    codTipoCargoExtra  integer,
-   rutEmpleado  varchar(9),
+   rutEmpleado  text,
    PRIMARY KEY ( codReserva , correlativoCargoExtra ),
    FOREIGN KEY (codReserva) references reserva(codReserva),
-   FOREIGN KEY  (codTipoCargoExtra)references tipoCargoExtra(codTipoCargoExtra)
+   FOREIGN KEY  (codTipoCargoExtra)references tipoCargoExtra(codTipoCargoExtra),
+   FOREIGN KEY (rutEmpleado) references empleado(rutPasaporte)
 );
 CREATE TABLE asignacion(
   codReserva integer,
@@ -145,7 +147,7 @@ CREATE TABLE  pago  (
    FOREIGN KEY  ( codReserva ) references reserva (codReserva)
 );
 CREATE TABLE  pisodelimpieza  (
-   rutPasaporte  varchar(10)   ,
+   rutPasaporte  text,
    numPiso  integer   ,
    numSemanaAnio  integer, 
    PRIMARY KEY(rutPasaporte, numPiso, numSemanaAnio),
@@ -156,7 +158,7 @@ CREATE TABLE  reservaestado  (
    codReserva  integer,
    codEstado  integer,
    fechaEstado  date,
-   horaEstado  varchar(5),
+   horaEstado  text,
    PRIMARY KEY ( codEstado , codReserva , fechaEstado ),
    FOREIGN KEY  (codReserva) references reserva (codReserva),
    FOREIGN KEY (codEstado) references estado (codEstado)
@@ -170,96 +172,18 @@ CREATE TABLE  reservatipohabitacion  (
    FOREIGN KEY (codReserva) references reserva (codReserva)
 );
 
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES ('12414895-5', 'Pepe');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('14567895-k', 'Ronaldo');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('15456257-2', 'Ramon');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('16845268-5', 'Catalina');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('17451284-6', 'Cristian');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('17539894-1', 'Rodrigo');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('17846952-k', 'Mario');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('18456257-5', 'Felipe');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('19542618-8', 'Ricardo');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('19542651-7', 'Fabian');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('19854201-0', 'Paulina');
-INSERT INTO  "user"  ( rutPasaporte ,  nomPersona ) 
-VALUES('19864091-3', 'Nicolas');
+/* INSERT ESCENCIALES */
 
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES ('17846952-k', 'Anibal Pinto 3689', 94512678);
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES('18456257-5', 'Los Arrayanes 4560', 84521547);
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES('19542618-8', 'Cisternas con las Higueras 8462', 98652145);
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES('19542651-7', 'Gabriela Mistral 4589', 87456525);
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES('19854201-0', 'ulriksen 9076', 84215062);
-INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
-VALUES('19864091-3', 'Gabriel Gonzalez 4564', 25489651);
-
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES ('12414895-5', 'holapapu', 'deLimpieza');
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES('14567895-k', 'maquinadeestudios', 'deLimpieza');
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES('15456257-2', 'maintaller', 'deLimpieza');
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES('16845268-5', 'recepcionista', 'deRecepcion');
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES('17451284-6', 'recepcionista', 'deRecepcion');
-INSERT INTO  empleado  ( rutPasaporte ,  password ,  tipoEmpleado )
-VALUES('17539894-1', 'jejejeje', 'deLimpieza');
-
-INSERT INTO  delimpieza  ( rutPasaporte )
-VALUES ('12414895-5');
-INSERT INTO  delimpieza  ( rutPasaporte )
-VALUES('14567895-k');
-INSERT INTO  delimpieza  ( rutPasaporte )
-VALUES('15456257-2');
-INSERT INTO  delimpieza  ( rutPasaporte )
-VALUES('17539894-1');
-
-INSERT INTO  derecepcion  ( rutPasaporte ) 
-VALUES ('16845268-5');
-INSERT INTO  derecepcion  ( rutPasaporte ) 
-VALUES('17451284-6');
-
-INSERT INTO  estado  ( codEstado ,  nomEstado )
-VALUES (1, 'Reservado');
-INSERT INTO  estado  ( codEstado ,  nomEstado )
-VALUES(2, 'check.in finalizado');
-INSERT INTO  estado  ( codEstado ,  nomEstado )
-VALUES(3, 'check-out finalizado');
-INSERT INTO  estado  ( codEstado ,  nomEstado )
-VALUES(4, 'cancelado');
-
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES (110, 'Comprar una copa de helado', 5500);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(111, 'usar el spa del hotel', 30000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(112, 'uso de servicio al cuarto', 10000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(113, 'rompio algo de la habitacion', 20000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(114, 'comprar cualquier tipo de bebestible', 8000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(115, 'fumo dentro de la habitacion', 40000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(116, 'uso de nuestros restaurantes', 35000);
-INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
-VALUES(117, 'perdio la llave de la habitacion', 10000);
+INSERT INTO  piso  ( numPiso ) VALUES(1);
+INSERT INTO  piso  ( numPiso ) VALUES(2);
+INSERT INTO  piso  ( numPiso ) VALUES(3);
+INSERT INTO  piso  ( numPiso ) VALUES(4);
+INSERT INTO  piso  ( numPiso ) VALUES(5);
+INSERT INTO  piso  ( numPiso ) VALUES(6);
+INSERT INTO  piso  ( numPiso ) VALUES(7);
+INSERT INTO  piso  ( numPiso ) VALUES(8);
+INSERT INTO  piso  ( numPiso ) VALUES(9);
+INSERT INTO  piso  ( numPiso ) VALUES(10);
 
 INSERT INTO  tipohabitacion  ( codTipoHab ,  nomTipoHab )
 VALUES (1, 'single');
@@ -277,26 +201,14 @@ VALUES (3, 'tarjeta de debito');
 INSERT INTO  formapago  ( codFormaPago ,  nomFormaPago )
 VALUES (4, 'tarjeta de credito');
 
-INSERT INTO  piso  ( numPiso )
-VALUES (1);
-INSERT INTO  piso  ( numPiso )
-VALUES(2);
-INSERT INTO  piso  ( numPiso )
-VALUES(3);
-INSERT INTO  piso  ( numPiso )
-VALUES(4);
-INSERT INTO  piso  ( numPiso )
-VALUES(5);
-INSERT INTO  piso  ( numPiso )
-VALUES(6);
-INSERT INTO  piso  ( numPiso )
-VALUES(7);
-INSERT INTO  piso  ( numPiso )
-VALUES(8);
-INSERT INTO  piso  ( numPiso )
-VALUES(9);
-INSERT INTO  piso  ( numPiso )
-VALUES(10);
+INSERT INTO  estado  ( codEstado ,  nomEstado )
+VALUES (1, 'Reservado');
+INSERT INTO  estado  ( codEstado ,  nomEstado )
+VALUES(2, 'check.in finalizado');
+INSERT INTO  estado  ( codEstado ,  nomEstado )
+VALUES(3, 'check-out finalizado');
+INSERT INTO  estado  ( codEstado ,  nomEstado )
+VALUES(4, 'cancelado');
 
 INSERT INTO  habitacion  ( numero ,  codTipoHab ,  numPiso )
 VALUES (1, 1, 1);
@@ -539,18 +451,79 @@ VALUES(119, 2, 10);
 INSERT INTO  habitacion  ( numero ,  codTipoHab ,  numPiso )
 VALUES(120, 3, 10);
 
+/* DATOS DE PRUEBA */
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES (110, 'Comprar una copa de helado', 5500);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(111, 'usar el spa del hotel', 30000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(112, 'uso de servicio al cuarto', 10000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(113, 'rompio algo de la habitacion', 20000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(114, 'comprar cualquier tipo de bebestible', 8000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(115, 'fumo dentro de la habitacion', 40000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(116, 'uso de nuestros restaurantes', 35000);
+INSERT INTO  tipocargoextra  ( codTipoCargoExtra ,  descripcion ,  costo )
+VALUES(117, 'perdio la llave de la habitacion', 10000);
+
+/* FIN ESCENCIALES */
+
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('16845268-5', 'Catalina','recepcionista');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('12414895-5', 'Rodrigo', 'limpieza');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('17846952-k', 'Mario', 'necesitamosun4');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('18456257-5', 'Felipe', 'cuatrodeseisramos');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('19542618-8', 'Ricardo', 'pasemosingeco');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('19542651-7', 'Fabian', 'enlasad');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('19854201-0', 'Paulina', 'seacabaelaño');
+INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
+VALUES('19864091-3', 'Nicolas', 'holaquetal');
+
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES ('17846952-k', 'Anibal Pinto 3689', 94512678);
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES('18456257-5', 'Los Arrayanes 4560', 84521547);
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES('19542618-8', 'Cisternas con las Higueras 8462', 98652145);
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES('19542651-7', 'Gabriela Mistral 4589', 87456525);
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES('19854201-0', 'ulriksen 9076', 84215062);
+INSERT INTO  cliente  ( rutPasaporte ,  direccionParticular ,  telefono )
+VALUES('19864091-3', 'Gabriel Gonzalez 4564', 25489651);
+
+INSERT INTO  empleado  ( rutPasaporte ,tipoEmpleado )
+VALUES ('12414895-5', 'deLimpieza');
+INSERT INTO  empleado  ( rutPasaporte ,tipoEmpleado )
+VALUES('16845268-5', 'deRecepcion');
+
+INSERT INTO  delimpieza  ( rutPasaporte )
+VALUES ('12414895-5');
+
+INSERT INTO  derecepcion  ( rutPasaporte ) 
+VALUES ('16845268-5');
+
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
 VALUES (1, 'web', '2018-11-08', '2018-11-26', '', 123456789, 'Santander', '17846952-k', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
 VALUES(2, 'telefonica', '2019-01-02', '2019-01-15', '', 987654321, 'Banco de Chile', '18456257-5', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
-VALUES(3, 'presencial', '2019-02-05', '2019-02-10', '', 789456123, 'Santander', '19542618-8', '17451284-6');
+VALUES(3, 'presencial', '2019-02-05', '2019-02-10', '', 789456123, 'Santander', '19542618-8', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
-VALUES(4, 'web', '2018-12-15', '2018-12-25', '', 789546213, 'Banco Estado', '17846952-k', '17451284-6');
+VALUES(4, 'web', '2018-12-15', '2018-12-25', '', 789546213, 'Banco Estado', '17846952-k', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
 VALUES(5, 'web', '2018-12-02', '2018-12-05', '', 213546879, 'BCI', '19854201-0', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
-VALUES(6, 'telefonica', '2018-11-25', '2018-11-30', '', 546213879, 'Santander', '19864091-3', '17451284-6');
+VALUES(6, 'telefonica', '2018-11-25', '2018-11-30', '', 546213879, 'Santander', '19864091-3', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
 VALUES(7, 'presencial', '2018-12-15', '2018-12-17', '', 456321789, 'Banco Estado', '19542618-8', '16845268-5');
 INSERT INTO  reserva  ( codReserva ,  formaReserva ,  fechaInicio ,  fechaFin ,  requerimientosAdicionales ,  numTarjetaCredito ,  bancoTarjetaCredito ,  rutPasaporte ,  rutRecepcion ) 
@@ -649,14 +622,14 @@ VALUES ('12414895-5', 1, 6);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
 VALUES ('12414895-5', 2, 5);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('14567895-k', 1, 2);
+VALUES ('12414895-5', 1, 2);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('14567895-k', 4, 8);
+VALUES ('12414895-5', 4, 8);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('15456257-2', 3, 60);
+VALUES ('12414895-5', 3, 60);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('15456257-2', 4, 10);
+VALUES ('12414895-5', 4, 10);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('17539894-1', 6, 10);
+VALUES ('12414895-5', 6, 10);
 INSERT INTO  pisodelimpieza  ( rutPasaporte ,  numPiso ,  numSemanaAnio )
-VALUES ('17539894-1', 8, 20);
+VALUES ('12414895-5', 8, 20);

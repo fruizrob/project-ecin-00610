@@ -52,7 +52,7 @@ export default class extends React.Component {
             <HeaderButton name="Inicio" rute="/" />
           </div>
           <div className="header-right">
-            <a>Logo Genial</a>
+            <HeaderButton name="Cerrar Sesión" rute="/auth/logout"/>
           </div>
         </Header>
 

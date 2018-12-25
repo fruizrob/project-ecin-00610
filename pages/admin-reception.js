@@ -86,8 +86,8 @@ export default class extends React.Component {
             <HeaderButton name="Inicio" rute="/" />
           </div>
           <div className="header-right">
-            <HeaderButton name="Bienvenido/a" rute="/admin" />
-            <a>Logo Genial</a>
+            <HeaderButton name="Bienvenido/a" rute="/admin-reception" />
+            <HeaderButton name="Cerrar Sesión" rute="/auth/logout"/>
           </div>
         </Header>
 
