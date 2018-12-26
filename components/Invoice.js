@@ -11,6 +11,7 @@ export default class extends React.Component {
         <p>Consumo: ${costoConsumo}</p>
         <p>Costo total: ${costoConsumo+costoAlojamiento}</p>
         <Button handleClick={this.props.onClose} title="Agregar" />
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
           h2, input, select {

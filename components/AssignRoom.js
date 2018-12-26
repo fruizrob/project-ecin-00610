@@ -26,6 +26,7 @@ export default class extends React.Component {
         <br/>
         
         <Button handleClick={this.props.onClose} title="Asignar" />
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
           p {

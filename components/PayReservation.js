@@ -22,6 +22,7 @@ export default class extends React.Component {
         </select>
         <p>Costo: ${costo}</p>
         <Button handleClick={this.props.onClose} title="Pagar" />
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
           h2, select {

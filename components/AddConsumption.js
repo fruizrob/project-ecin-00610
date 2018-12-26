@@ -15,6 +15,7 @@ export default class extends React.Component {
         </p>
         <p>Fecha: <input type="date" /></p>
         <Button handleClick={this.props.onClose} title="Añadir" />
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
             h2, select {

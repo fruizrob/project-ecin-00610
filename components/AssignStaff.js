@@ -13,6 +13,7 @@ export default class extends React.Component {
           <option>texto 3</option>
         </select>
         <Button handleClick={this.props.onClose} title="Agregar"/>
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
           h2, input, select {

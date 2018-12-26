@@ -10,6 +10,7 @@ export default class extends React.Component {
         <p>Habitacion <input /></p>
         <p>Tipo <input /></p>
         <Button handleClick={this.props.onClose} title="Editar" />
+        <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
           input {
