@@ -100,6 +100,9 @@ export default class extends React.Component {
             border: none;
             outline: none;
             height: 20px;
+            text-align: center;
+            border: solid 1px;
+            border-radius: 10px;
           }
           .button1 {
             float: left;

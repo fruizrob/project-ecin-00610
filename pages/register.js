@@ -38,7 +38,7 @@ export default class extends React.Component {
         }
       }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(() => window.location.assign('/login'));
+        .then(() => window.location.assign('/login')); // Not working
     } catch (e) {
       console.log("Error", e)
     }
@@ -46,14 +46,10 @@ export default class extends React.Component {
 
   canBeSubmitted = () => {
     const { rut, name, password, direction, phone, confirm } = this.state;
-    if(rut.length > 0 && name.length > 0 && direction.length > 0 && phone.length > 0){
-      if(password == confirm){
-        this.newUser()
-      }else{
-        alert('Las contraseñas no coinciden');
-      }
+    if(password == confirm){
+      this.newUser()
     }else{
-      alert('Rellene todos los campos');
+      alert('Las contraseñas no coinciden');
     }
   }
 
