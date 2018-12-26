@@ -1,61 +1,69 @@
 /*
-drop table tipocargoextra;
-drop table tipohabitacion;
-drop table "user";
-drop table session;
-drop table user_type;
-drop table estado;
-drop table formapago;
-drop table piso;
+drop table reservatipohabitacion;
+drop table reservaestado;
+drop table pisodelimpieza;
+drop table pago;
 drop table asignacion;
 drop table cargoextra;
-drop table cliente;
+drop table reserva;
+drop table habitacion;
 drop table delimpieza;
 drop table derecepcion;
 drop table empleado;
-drop table habitacion;
-drop table pago;
-drop table pisodelimpieza;
-drop table reserva;
-drop table reservaestado;
-drop table reservatipohabitacion;
+drop table cliente;
+drop table "user";
+drop table user_type;
+drop table piso;
+drop table formapago;
+drop table estado;
+drop table tipohabitacion;
+drop table tipocargoextra;
+drop table session;
 */
+
 CREATE TABLE session(
   sess json,
   sid text,
   expire timestamp,
   PRIMARY KEY (sid)
 );
+
 CREATE TABLE  tipocargoextra  (
    codTipoCargoExtra  integer,
    descripcion  text   ,
    costo  integer,
    PRIMARY KEY ( codTipoCargoExtra )
 );
+
 CREATE TABLE  tipohabitacion  (
    codTipoHab  integer   ,
    nomTipoHab  text,
    PRIMARY KEY ( codTipoHab )
 );
+
 CREATE TABLE  estado  (
    codEstado  integer,
    nomEstado  text,
    PRIMARY KEY( codEstado )
 );
+
 CREATE TABLE  formapago  (
    codFormaPago  integer,
    nomFormaPago  text,
    PRIMARY KEY ( codFormaPago )
 );
+
 CREATE TABLE  piso  (
    numPiso  integer,
    PRIMARY KEY (numPiso)
 );
+
 CREATE TABLE user_type (
   id text,
   type text,
   PRIMARY KEY (id)
 );
+
 CREATE TABLE  "user"  (
     rutPasaporte  text,
     nomPersona  text,
@@ -66,24 +74,27 @@ CREATE TABLE  "user"  (
     PRIMARY KEY (rutPasaporte),
     FOREIGN KEY (user_type_id) references user_type(id)
 );
+
 CREATE TABLE  cliente  (
    rutPasaporte  text,
    direccionParticular  text,
    telefono  integer,
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
-
 );
+
 CREATE TABLE  delimpieza  (
    rutPasaporte  text,
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references empleado( rutPasaporte )
 );
+
 CREATE TABLE  derecepcion  (
    rutPasaporte  text,
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references empleado( rutPasaporte )
 );
+
 CREATE TABLE  empleado  (
    rutPasaporte  text,
    password  text,
@@ -91,6 +102,7 @@ CREATE TABLE  empleado  (
    PRIMARY KEY( rutPasaporte ),
    FOREIGN KEY ( rutPasaporte ) references "user"( rutPasaporte )
 );
+
 CREATE TABLE  habitacion  (
    numero  integer,
    codTipoHab  integer,
@@ -99,6 +111,7 @@ CREATE TABLE  habitacion  (
    FOREIGN KEY ( codTipoHab ) references tipohabitacion(codTipoHab),
    FOREIGN KEY ( numPiso ) references piso(numPiso)
 );
+
 CREATE TABLE  reserva  (
    codReserva  integer,
    formaReserva  text,
@@ -113,6 +126,7 @@ CREATE TABLE  reserva  (
    FOREIGN KEY ( rutPasaporte ) references cliente ( rutPasaporte ),
    FOREIGN KEY ( rutRecepcion ) references derecepcion (rutPasaporte)
 );
+
 CREATE TABLE cargoextra (
   codReserva integer,
   correlativoCargoExtra  integer,
@@ -126,6 +140,7 @@ CREATE TABLE cargoextra (
    FOREIGN KEY  (codTipoCargoExtra)references tipoCargoExtra(codTipoCargoExtra),
    FOREIGN KEY (rutEmpleado) references empleado(rutPasaporte)
 );
+
 CREATE TABLE asignacion(
   codReserva integer,
   numero integer,
@@ -135,6 +150,7 @@ CREATE TABLE asignacion(
   FOREIGN KEY (numero) references habitacion (numero),
   FOREIGN KEY (codTipoHab) references tipohabitacion(codTipoHab)
 );
+
 CREATE TABLE  pago  (
    numComprobante  integer,
    codFormaPago  integer,
@@ -146,6 +162,7 @@ CREATE TABLE  pago  (
    FOREIGN KEY ( codFormaPago ) references formapago,
    FOREIGN KEY  ( codReserva ) references reserva (codReserva)
 );
+
 CREATE TABLE  pisodelimpieza  (
    rutPasaporte  text,
    numPiso  integer   ,
@@ -154,6 +171,7 @@ CREATE TABLE  pisodelimpieza  (
    FOREIGN KEY (rutPasaporte) references delimpieza(rutPasaporte),
    FOREIGN KEY (numPiso) references piso(numPiso)
 );
+
 CREATE TABLE  reservaestado  (
    codReserva  integer,
    codEstado  integer,
@@ -163,6 +181,7 @@ CREATE TABLE  reservaestado  (
    FOREIGN KEY  (codReserva) references reserva (codReserva),
    FOREIGN KEY (codEstado) references estado (codEstado)
 );
+
 CREATE TABLE  reservatipohabitacion  (
    codTipoHab  integer,
    codReserva  integer,
@@ -186,20 +205,20 @@ INSERT INTO  piso  ( numPiso ) VALUES(9);
 INSERT INTO  piso  ( numPiso ) VALUES(10);
 
 INSERT INTO  tipohabitacion  ( codTipoHab ,  nomTipoHab )
-VALUES (1, 'single');
+VALUES (1, 'Single');
 INSERT INTO  tipohabitacion  ( codTipoHab ,  nomTipoHab )
-VALUES(2, 'doble');
+VALUES(2, 'Doble');
 INSERT INTO  tipohabitacion  ( codTipoHab ,  nomTipoHab )
-VALUES(3, 'premium');
+VALUES(3, 'Premium');
 
 INSERT INTO  formapago  ( codFormaPago ,  nomFormaPago )
-VALUES (1, 'efectivo');
+VALUES (1, 'Efectivo');
 INSERT INTO  formapago  ( codFormaPago ,  nomFormaPago )
-VALUES (2, 'cheque');
+VALUES (2, 'Cheque');
 INSERT INTO  formapago  ( codFormaPago ,  nomFormaPago )
-VALUES (3, 'tarjeta de debito');
+VALUES (3, 'Tarjeta de debito');
 INSERT INTO  formapago  ( codFormaPago ,  nomFormaPago )
-VALUES (4, 'tarjeta de credito');
+VALUES (4, 'Tarjeta de credito');
 
 INSERT INTO  estado  ( codEstado ,  nomEstado )
 VALUES (1, 'Reservado');
@@ -484,7 +503,7 @@ VALUES('19542618-8', 'Ricardo', 'pasemosingeco');
 INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
 VALUES('19542651-7', 'Fabian', 'enlasad');
 INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
-VALUES('19854201-0', 'Paulina', 'seacabaelaño');
+VALUES('19854201-0', 'Paulina', 'seacabaelaï¿½o');
 INSERT INTO  "user"  ( rutPasaporte ,  nomPersona, password) 
 VALUES('19864091-3', 'Nicolas', 'holaquetal');
 

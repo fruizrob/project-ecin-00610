@@ -1,6 +1,7 @@
 const express = require('express')
 const Passport = require('passport');
 const User = require('../models/user');
+const db = require('../db/database.js');
 const router = new express.Router();
 
 router.post('/login', Passport.authenticate('local'), (req, res) => {
@@ -17,16 +18,6 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/register', (req, res) => {
-  User.register(
-    {rutpasaporte: '1', user_type_id: 'AD', nompersona: 'Administrador'},
-    '1',
-    (err, user) => 
-    {
-      console.log(err);
-      res.json({user, err})
-    }
-  );
-});
+router.post('/register', db.registerUser);
 
 module.exports = router;

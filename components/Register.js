@@ -3,20 +3,19 @@ import Head from 'next/head'
 
 export default class extends React.Component {
   render() {
-    const { title, children } = this.props
     return (
       <div className="section">
-        <form id="regist">
-            <h2>Registro:</h2>
-            <hr />
-            <p>Rut: <input type="text" placeholder="ej: 11.111.111-1" pattern="[0-9]{1,2}[.][0-9]{3}[.][0-9]{3}-(k|K|[0-9])$" maxLength="10" required /></p>
-            <p>Nombre: <input type="text" placeholder="Nombre completo" pattern="[A-Z]{0,1}[a-z]+\s[A-Z]{0,1}[a-z]+(\s[A-Z]{0,1}[a-z]+){0,2}$" required /></p>
-            <p>Contraseña: <input type="password" placeholder="Ingrese su contraseña" required /></p>
-            <p>Corroborar: <input type="password" placeholder="Corroborar contraseña" required /></p>
-            <p>Dirección: <input type="text" placeholder="Dirección particular" required /></p>
-            <p>Teléfono: <input type="text" placeholder="Número de contacto (+56)" pattern="[+56]{0,1}[0-9]{6,9}$" /></p>
-            <button type="submit">Agregar usuario</button>
-        </form>
+        <div id="regist">
+          <h2>Registro:</h2>
+          <hr />
+          <p>Rut: <input onChange={this.props.handleRut} type="text" placeholder="ej: 11.111.111-1" pattern="[0-9]{1,2}[.][0-9]{3}[.][0-9]{3}-(k|K|[0-9])$" maxLength="12" required /></p>
+          <p>Nombre: <input onChange={this.props.handleName} type="text" placeholder="Nombre completo" pattern="[A-Z]{0,1}[a-z]+\s[A-Z]{0,1}[a-z]+(\s[A-Z]{0,1}[a-z]+){0,2}$" required /></p>
+          <p>Contraseña: <input onChange={this.props.handlePassword} type="password" placeholder="Ingrese su contraseña" required /></p>
+          <p>Confirmar: <input type="password" placeholder="Confirmar contraseña" required /></p>
+          <p>Dirección: <input onChange={this.props.handleDirection} type="text" placeholder="Dirección particular" required /></p>
+          <p>Celular: <input onChange={this.props.handlePhone} type="text" placeholder="Número de contacto (+56)" pattern="[+56]{0,1}[0-9]{6,9}$" /></p>
+          <button onClick={this.props.newUser} >Agregar usuario</button>
+        </div>
 
         <style jsx>{`
             input, button{
@@ -24,7 +23,7 @@ export default class extends React.Component {
             }
             #regist{
                 width: 22%;
-                height: 80%;
+                height: 70%;
                 background: #8756ca;
                 color: #fff;
                 top: 55%;

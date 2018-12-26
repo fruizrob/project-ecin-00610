@@ -22,6 +22,7 @@ const postgres = pgp({
   promiseLib: Promise,
   receive: (data, result, e) => { camelizeColumns(data); }
 });
+
 const connection = postgres(config.dbUri);
 
 module.exports = connection;

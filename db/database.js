@@ -1,8 +1,38 @@
+const User = require('../models/user');
 var connection = require('../middleware/postgresConnection');
 
 
 const querys = {};
 
+querys.registerUser = (req, res, next) => {
+  let { rut, name, password, direction, phone, type } = req.body
+
+  User.register(
+    { 
+      rutpasaporte: rut, 
+      user_type_id: type, 
+      nompersona: name
+    }, 
+    password, 
+    (err, user) => {
+      if(err){
+        console.log("Error", err)
+      } else {
+        let query = `
+          INSERT INTO cliente 
+          VALUES($1,$2,$3)
+        `
+        return connection.none(query, [rut, direction, phone])
+        .then(data => {
+          res.status(200).json({ data })
+        })
+        .catch(err => {
+          res.status(500).json({ error: err, message: 'Hubo un error' })
+        })
+      }
+    }
+  );
+}
 
 querys.deleteClient = (req, res, next) => {
 	let rut = "11111111-1"
