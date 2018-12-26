@@ -12,7 +12,8 @@ export default class extends React.Component {
     password: '',
     direction: '',
     phone: '',
-    type: 'US'
+    type: 'US',
+    confirm: ''
   }
 
   newUser = async () => {
@@ -40,6 +41,19 @@ export default class extends React.Component {
         .then(() => window.location.assign('/login'));
     } catch (e) {
       console.log("Error", e)
+    }
+  }
+
+  canBeSubmitted = () => {
+    const { rut, name, password, direction, phone, confirm } = this.state;
+    if(rut.length > 0 && name.length > 0 && direction.length > 0 && phone.length > 0){
+      if(password == confirm){
+        this.newUser()
+      }else{
+        alert('Las contraseñas no coinciden');
+      }
+    }else{
+      alert('Rellene todos los campos');
     }
   }
 
@@ -73,14 +87,19 @@ export default class extends React.Component {
     })
   }
 
+  handleConfirm = (ev) => {
+    this.setState({
+      confirm: ev.target.value,
+    })
+  }
+
   render() {
     return (
       <Layout>
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Realizar Reserva" rute="" />
-            <HeaderButton name="Ver Reservas" rute="" />
+            <HeaderButton name="Login" rute="/login"/>
           </div>
           <div className="header-right">
             <a>Logo Genial</a>
@@ -91,9 +110,10 @@ export default class extends React.Component {
           handleRut = {this.handleRut}
           handleName = {this.handleName}
           handlePassword = {this.handlePassword}
+          handleConfirm = {this.handleConfirm}
           handleDirection = {this.handleDirection}
           handlePhone = {this.handlePhone}
-          newUser = {this.newUser}
+          canBeSubmitted = {this.canBeSubmitted}
         />
 
         <style jsx>{`
