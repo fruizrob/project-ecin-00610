@@ -38,7 +38,7 @@ export default class extends React.Component {
         }
       }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(() => window.location.assign('/login')); // Not working
+        .then(() => window.location.assign('/login'));
     } catch (e) {
       console.log("Error", e)
     }
@@ -48,8 +48,9 @@ export default class extends React.Component {
     const { rut, name, password, direction, phone, confirm } = this.state;
     if(password == confirm){
       this.newUser()
+      alert('Usuario creado con exito!')
     }else{
-      alert('Las contraseñas no coinciden');
+      alert('Las contraseñas no coinciden')
     }
   }
 
