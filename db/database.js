@@ -116,16 +116,20 @@ module.exports = {
 
   // Insertar reserva de un usuario
   insertReserve: (req, res, next) => {
-    let { rut, start_date, end_date, request, cod_room, cod_type } = req.body
+    let { rut, start_date, end_date, request, cod_room, cod_type, emp } = req.body
+
+    if(!emp){
+      emp = '-'
+    }
 
     connection.tx(t => {
       return t.sequence((order, data) => {
         if (order == 0) {
           let query = `
                 INSERT INTO reserva(formaReserva, fechaInicio, fechaFin, requerimientosAdicionales, numTarjetaCredito, bancoTarjetaCredito, rutPasaporte, rutRecepcion)
-                VALUES('Web',$2,$3,$4,0,'',$1,$1)
+                VALUES('Web',$2,$3,$4,0,'',$1,$5)
                 RETURNING codreserva`
-          return t.one(query, [rut, start_date, end_date, request])
+          return t.one(query, [rut, start_date, end_date, request, emp])
         }
         if (order == 1) {
           let codigo = data.codreserva;
@@ -153,55 +157,43 @@ module.exports = {
       .catch(err => {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
+  },
+
+  // Insertar reserva de un usuario
+  insertPayment: (req, res, next) => {
+    let { rut, card, bank, monto, codreserva } = req.body
+
+    connection.tx(t => {
+      return t.sequence((order, data) => {
+        if (order == 0) {
+          let query = `
+                UPDATE reserva
+                SET numTarjetaCredito = $2, bancoTarjetaCredito = $3
+                WHERE rutpasaporte = $1 AND codreserva = $4
+                `
+          return t.any(query, [rut, Number(card), bank, Number(codreserva)])
+        }
+        if (order == 1) {
+          let query = `
+                INSERT INTO pago(codFormaPago, codReserva, monto, fecha, numTarjetaCredito)
+                VALUES (4, $2, $3, NOW(), $1)
+                `
+          return t.none(query, [Number(card), Number(codreserva), monto])
+        }
+        if (order == 2) {
+          let query = `
+                INSERT INTO reservaestado
+                VALUES ($1, 3, NOW(), to_char(NOW(), 'hh:mi'))
+                `
+          return t.none(query, Number(codreserva))
+        }
+      })
+    })
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
   }
 };
-
-// querys.addClient = (req, res, next) => {
-// 	connection.tx(t => {
-
-// 		/* consultas sin orden
-// 		let querys = {};
-// 		querys.push(t.one(quetry...))
-// 		return t.batch(querys) */
-
-// 		return t.sequence( (order, data) => {
-// 			if(order == 0) {
-// 				//ingresamos persona
-// 				let rut = "11111111-1"
-// 				let nombre = "Jhon Doe"
-
-// 				let query = `INSERT INTO persona VALUES($1,$2) RETURNING rutpasaporte`
-// 				return t.one(query , [rut, nombre])
-// 			}
-// 			if(order == 1) {
-// 				let rutPersona = data.rutpasaporte;
-// 				let direc = 'Unknown location'
-// 				let fono = 123456
-// 				//ingresamos cliente
-// 				let query = `INSERT INTO cliente VALUES($1,$2,$3)`
-// 				return connection.none(query, [rutPersona,direc,fono])
-// 			}
-// 		})
-// 	})
-// 	.then( data => {
-// 		console.log("entra data")
-// 		res.status(200).json({data})
-// 	})
-// 	.catch( err => {
-// 		console.log("entra catch")
-// 		res.status(500).json({error: err, message: 'Hubo un error'})
-// 	})
-// }
-
-// querys.selectClient = (req, res , next) => {
-// 	let query = `SELECT * FROM "user"`
-// 	return connection.any(query)
-// 	.then( data => {
-// 		res.status(200).json({data})
-// 	})
-// 	.catch( err => {
-// 		res.status(500).json({error: err, message: 'Hubo un error'})
-// 	})
-// }
-
-

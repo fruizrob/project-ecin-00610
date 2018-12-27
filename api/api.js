@@ -12,6 +12,7 @@ console.log(db)
 
 // POST
 router.post('/reserve', db.insertReserve)
+router.post('/payment', db.insertPayment)
 
 // GET
 router.get('/roomTypes', db.getRoomTypes)
