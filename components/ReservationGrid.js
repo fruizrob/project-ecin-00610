@@ -1,4 +1,60 @@
 export default class extends React.Component {
+
+  state = {
+    selected: false,
+    selectedTarget: '',
+
+    // Selected Reservation
+    id: '',
+    rut: '',
+    start: '',
+    end: '',
+    type: '',
+    bank: '',
+    credit_card: '',
+    aditional: '',
+    rut_employe: '',
+  }
+
+  handleReservation = (ev) => {
+
+    if(this.state.selected){
+      this.state.selectedTarget.classList.remove('selected')
+    } else {
+      this.setState({
+        selected: true,
+      })
+    }
+    
+    ev.currentTarget.classList.add('selected')
+    this.setState({
+      selectedTarget: ev.currentTarget
+    })
+
+    this.getReservationSelected(ev.currentTarget.getAttribute('value'))
+    console.log(this.state)
+  }
+
+  getReservationSelected = (cod) => {
+    fetch(`/api/reservations/${cod}`)
+      .then(res => res.json())
+      .then(data => {
+        const reservation = data.data[0]
+        console.log(data.data[0])
+        this.setState({
+          id: reservation.codreserva,
+          rut: reservation.rutpasaporte,
+          start: reservation.fechainicio,
+          end: reservation.fechafin,
+          type: reservation.formareserva,
+          bank: reservation.bancotarjetacredito,
+          credit_card: reservation.numtarjetacredito,
+          aditional: reservation.requerimientosadicionales,
+          rut_employe: reservation.rutrecepcion,
+        })
+      })
+  }
+
   render() {
     const { reservations } = this.props
     return (
@@ -7,7 +63,7 @@ export default class extends React.Component {
           {
             reservations &&
             reservations.map(reserve => {
-              return (<div key={reserve.codreserva} className="reservations-cards">
+              return (<div onClick={this.handleReservation} value={reserve.codreserva} key={reserve.codreserva} className="reservations-cards">
                 <p>Codigo: {reserve.codreserva}</p>
                 <p>Fecha Inicio: {reserve.fechainicio}</p>
                 <p>Fecha Termino: {reserve.fechafin}</p>
@@ -32,6 +88,10 @@ export default class extends React.Component {
           }
           .reservations-cards p {
             margin: 0.5em;
+          }
+          .selected {
+            background: #C70039;
+            color: white;
           }
         `}</style>
       </div>

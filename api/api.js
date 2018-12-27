@@ -17,9 +17,8 @@ router.post('/reserve', db.insertReserve)
 router.get('/roomTypes', db.getRoomTypes)
 router.get('/rooms', db.getAllRooms)
 router.get('/rooms/:type', db.getRoomsPerType)
-
-// ADMIN
 router.get('/reservations', db.getReservations)
-router.get('/reservations/:rut', db.getUserReservations)
+router.get('/reservations/user/:rut', db.getUserReservations)
+router.get('/reservations/:id', db.getReservationSelected)
 
 module.exports = router;

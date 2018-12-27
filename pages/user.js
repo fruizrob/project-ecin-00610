@@ -29,7 +29,7 @@ export default class extends React.Component {
         console.log(e)
       })
     let rut = this.state.rut
-    await fetch(`http://localhost:3000/api/reservations/${rut}`)
+    await fetch(`http://localhost:3000/api/reservations/user/${rut}`)
       .then(res => res.json())
       .then(data => {
         this.setState({

@@ -66,6 +66,24 @@ module.exports = {
       })
   },
 
+  // Obtener reserva por codigo
+  getReservationSelected: (req, res, next) => {
+    const { id } = req.params
+
+    let query = ` 
+      SELECT * 
+      FROM reserva
+      WHERE codreserva = $1 
+    `
+    return connection.any(query, id)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
   // Obtener tipos de habitacion
   getRoomTypes: (req, res, next) => {
     let query = ` 
