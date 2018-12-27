@@ -15,13 +15,11 @@ export default class extends React.Component {
             <img className="debit" src="../static/debit.png" />
           </div>
           <div>
-            <form className="form-container">
-                <input type="text" placeholder="Nombre" pattern="[A-Z]{0,1}[a-z]+(\s[A-Z]{0,1}[a-z]+){0,2}$" required /><p />
-                <input type="text" placeholder="Apellido" pattern="[A-Z]{0,1}[a-z]+(\s[A-Z]{0,1}[a-z]+){0,2}$" required /><p />
-                <input type="text" placeholder="Nº tarjeta" pattern="[0-9]{4,10}$" required /><p />
-                <input type="text" placeholder="Forma: dd-MM-yyyy" required /><p />
+            <form className="form-container" onSubmit={this.props.canBeSubmitted} >
+                <input onChange={this.props.handleCard} type="text" placeholder="Nº tarjeta" pattern="[0-9]{4,20}$" required /><p />
+                <input onChange={this.props.handleBank} type="text" placeholder="Banco de Tarjeta" required /><p />
                 <input type="text" placeholder="Código de seguridad (CVV)" pattern="[0-9]{3,4}$" required /><p />
-                <button type="submit">Agregar usuario</button>
+                <button type="submit">Realizar pago</button>
             </form>
           </div>
         </div>
@@ -32,6 +30,16 @@ export default class extends React.Component {
         }
         .form-container{
           min-width: 300px;
+          width: 50%;
+          height: 30%;
+          background: #8756ca;
+          color: #fff;
+          left: 50%;
+          top: 60%;
+          transform: translate(-50%, -50%);
+          position: fixed;
+          box-sizing: border-box;
+          padding: 30px 30px;
         }
         h2{
           text-align: center;
@@ -51,18 +59,6 @@ export default class extends React.Component {
         .debit{
           width: 80px;
           height: 80px;
-        }
-        form{
-          width: 50%;
-          height: 40%;
-          background: #8756ca;
-          color: #fff;
-          left: 50%;
-          top: 70%;
-          transform: translate(-50%, -50%);
-          position: fixed;
-          box-sizing: border-box;
-          padding: 10px 30px;
         }
         input, button{
           width: 100%;
