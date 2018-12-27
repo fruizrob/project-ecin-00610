@@ -17,19 +17,11 @@ import AddConsumption from '../components/AddConsumption'
 
 export default class extends React.Component {
 
-  static async getInitialProps({ res }) {
-    try {
-      let req = await fetch('/api/selectCliente')
-      let lista = await req.json()
-      console.log(lista);
-      return { lista, statusCode: 200 }
-    } catch (e) {
-      res.statusCode = 503
-      return { lista: null, statusCode: 503 }
-    }
-  }
-
   state = {
+    // Data
+    reservations: [],
+
+    // Toggle modals
     modalAssignStaff: false,
     modalPayReservation: false,
     modalEditReservation: false,
@@ -37,6 +29,23 @@ export default class extends React.Component {
     modalAssignRoom: false,
     modalAddConsumption: false,
   }
+  // Obtener Reservas
+  getReservations = () => {
+    fetch('http://localhost:3000/api/reservations')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          reservations: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+  componentDidMount = () => {
+    this.getReservations()
+  }
+
+
 
   handleOpenAssignStaff = () => {
     this.setState({
@@ -133,7 +142,7 @@ export default class extends React.Component {
             <Button handleClick={this.handleOpenAssignRoom} title="Asignar habitacion"/>
           </div>
 
-          <ReservationGrid /> 
+          <ReservationGrid reservations={this.state.reservations} /> 
         </div>
         
         {

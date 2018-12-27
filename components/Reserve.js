@@ -1,15 +1,70 @@
 export default class extends React.Component {
-  createRows = () => {
-    let rows = []
 
-    for (let i = 0; i < 5; i++) {
-      rows.push(<option key={i}> { `Habitación: ${ i + 1 }` } </option>)
-    }
-    return rows
+  state = {
+    // get
+    room_types: '',
+    rooms: '',
+
+    // post
+    date_start: '',
+    date_end: '',
+    cradle: false,
+    kids: false,
+    extra_bed: false,
   }
+
+  componentDidMount = () => {
+    this.getRoomTypes()
+    this.getAllRooms()
+  }
+
+  getRoomTypes = () => {
+    fetch('http://localhost:3000/api/roomTypes')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          room_types: data
+        })
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+  getAllRooms = () => {
+    fetch('http://localhost:3000/api/allRooms')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          rooms: data
+        })
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+  toggleKids = () => {
+    setState({
+      kids: !this.state.kids
+    })
+  }
+
+  toggleCradle = () => {
+    setState({
+      cradle: !this.state.cradle
+    })
+  }  
+
+  toggleBed = () => {
+    setState({
+      extra_bed: !this.state.extra_bed
+    })
+  }  
   
   render(){
-    const { title, handleClick } = this.props
+    const { rooms, room_types } = this.state
+
     return (
       <div className="container">
         <div>
@@ -17,27 +72,37 @@ export default class extends React.Component {
           <h4 id="in">Fecha llegada: <input type="date" /></h4>
           <h4 id="out">Fecha salida: <input type="date" /></h4>
 
-          <select defaultValue="Tipo habitación" className="roomType">
+          <select onChange={} defaultValue="Tipo habitación" className="roomType">
             <option disabled>Tipo habitación</option>
-            <option>tipo 1</option>
-            <option>tipo 2</option>
+            {
+              room_types.data &&
+              room_types.data.map(type => {
+                return <option key={type.codtipohab} value={type.codtipohab} >{type.nomtipohab}</option> 
+              })
+            }
           </select>
 
           <form>
             <br/>
             <label>
-              <input type="checkbox" value="children" /> ¿Viajan menores?
+              <input onClick={this.toggleKids} type="checkbox" value="children" /> ¿Viajan menores?
             </label>
             <label>
-              <input type="checkbox" value="cradle" /> Necesita cuna
+              <input onClick={this.toggleCradle} type="checkbox" value="cradle" /> Necesita cuna
             </label>
             <label>
-              <input type="checkbox" value="bed" /> Cama extra
+              <input onClick={this.toggleBed} type="checkbox" value="bed" /> Cama extra
             </label>
           </form>
 
           <select className="roomList">
-            { this.createRows() }
+            <option disabled>Habitacións</option>
+            {
+              rooms.data &&
+              rooms.data.map(room => {
+                return <option key={room.numero}>{room.numero}</option>
+              })
+            }
           </select>
         </div>
 

@@ -1,17 +1,21 @@
-var express = require('express');
-const db = require( '../db/database.js');
-const router = new express.Router();
+var express = require('express')
+const db = require( '../db/database.js')
+const router = new express.Router()
 
 router.get('/userInfo', function (req, res, next) {
 	return res.json({
 		user: req.user
-	});
-});
+	})
+})
 
-//router.delete('/borrarUsuario')
-router.get('/añadirCliente', db.addClient);
-router.get('/selectCliente', db.selectClient);
+console.log(db)
 
-//POST
+// GET
+router.get('/roomTypes', db.getRoomTypes)
+router.get('/allRooms', db.getAllRooms)
+
+// ADMIN
+router.get('/reservations', db.getReservations)
+router.get('/reservations/:rut', db.getUserReservations)
 
 module.exports = router;

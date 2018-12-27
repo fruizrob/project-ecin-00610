@@ -3,8 +3,43 @@ import Layout from '../components/Layout'
 import Home from '../components/Home'
 import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
+import 'isomorphic-fetch'
 
 export default class extends React.Component {
+
+  state = {
+    rut: '',
+    name: '',
+    reservations: {},
+  }
+
+  componentWillMount = async () => {
+    await fetch('http://localhost:3000/api/userInfo')
+      .then(res => res.json())
+      .then(data => {
+
+        const { rutpasaporte, nompersona } = data.user
+
+        this.setState({
+          rut: rutpasaporte,
+          name: nompersona
+        })
+
+        console.log(this.state)
+      }) 
+      .catch((e) => {
+        console.log(e)
+      })
+    await fetch(`http://localhost:3000/api/reservations/${this.state.rut}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          reservations: data.data, // Setear Reservas del usuario
+        })
+      })
+
+  }
+
   render() {
     return (
       <Layout>
@@ -21,7 +56,7 @@ export default class extends React.Component {
         </Header>
         
         <h1>Mis reservas<hr/></h1>
-        <ReservationGrid />
+        <ReservationGrid reservations={this.state.reservations} />
 
         <style jsx>{`
          h1 {

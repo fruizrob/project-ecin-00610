@@ -1,43 +1,20 @@
 export default class extends React.Component {
   render() {
+    const { reservations } = this.props
     return (
       <div>
         <div className="reservations-container">
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
-          <div className="reservations-cards">
-            <p>Codigo: QWERTY123</p>
-            <p>Fecha: 25 de Noviembre, 2018</p>
-            <p>Estado: Pagado</p>
-          </div>
+          {
+            reservations &&
+            reservations.map(reserve => {
+              return (<div key={reserve.codreserva} className="reservations-cards">
+                <p>Codigo: {reserve.codreserva}</p>
+                <p>Fecha Inicio: {reserve.fechainicio}</p>
+                <p>Fecha Termino: {reserve.fechafin}</p>
+                <p>Rut: {reserve.rutpasaporte}</p>
+              </div>)
+            })
+          }
         </div>
         <style>{`
           .reservations-container {
