@@ -6,8 +6,6 @@ import Reserve from '../components/Reserve'
 
 export default class extends React.Component {
 
-  
-
   render() {
     return (
       <Layout>

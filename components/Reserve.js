@@ -1,21 +1,40 @@
+import 'isomorphic-fetch'
+
 export default class extends React.Component {
 
   state = {
     // get
     room_types: '',
     rooms: '',
+    rut: '',
 
     // post
-    date_start: '',
-    date_end: '',
+    start_date: '',
+    end_date: '',
     cradle: false,
     kids: false,
     extra_bed: false,
+    room: '',
+    room_type: ''
+  }
+
+  componentWillMount = () => {
+    fetch('http://localhost:3000/api/userInfo')
+      .then(res => res.json())
+      .then(data => {
+        const { rutpasaporte } = data.user
+        this.setState({
+          rut: rutpasaporte
+        })
+      }) 
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   componentDidMount = () => {
     this.getRoomTypes()
-    this.getAllRooms()
+    this.getRooms()
   }
 
   getRoomTypes = () => {
@@ -31,37 +50,110 @@ export default class extends React.Component {
       })
   }
 
-  getAllRooms = () => {
-    fetch('http://localhost:3000/api/allRooms')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          rooms: data
+  getRooms = (type = undefined) => {
+    if (!type){
+      fetch('http://localhost:3000/api/rooms')
+        .then(res => res.json())
+        .then(data => {
+          this.setState({
+            rooms: data
+          })
         })
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .catch((e) => {
+          console.log(e)
+        })
+    } else {
+      fetch(`http://localhost:3000/api/rooms/${type}`)
+        .then(res => res.json())
+        .then(data => {
+          this.setState({
+            rooms: data
+          })
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+  }
+
+  handleStartDate = (ev) => {
+    this.setState({
+      start_date: ev.target.value
+    })
+  }
+
+  handleEndDate = (ev) => {
+    this.setState({
+      end_date: ev.target.value
+    })
+  }
+
+  handleRoomType = (ev) => {
+    let type = ev.currentTarget.value
+    this.getRooms(type)
+    this.setState({
+      room_type: type
+    })
+  }
+
+  handleRoom = (ev) => {
+    this.setState({
+      room: ev.currentTarget.value
+    })
   }
 
   toggleKids = () => {
-    setState({
+    this.setState({
       kids: !this.state.kids
     })
   }
 
   toggleCradle = () => {
-    setState({
+    this.setState({
       cradle: !this.state.cradle
     })
   }  
 
   toggleBed = () => {
-    setState({
+    this.setState({
       extra_bed: !this.state.extra_bed
     })
   }  
-  
+
+  handleReserve = () => {
+    let { cradle, kids, extra_bed } = this.state
+    let requerimiento = 'NO'
+    if( cradle || kids || extra_bed ){
+      requerimiento = 'SI'
+    }
+
+    try {
+      let form = {
+        rut: this.state.rut,
+        start_date: this.state.start_date,
+        end_date: this.state.end_date,
+        request: requerimiento,
+        cod_room: this.state.room,
+        cod_type: this.state.room_type
+      }
+
+      const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
+      let data = serialize(form)
+
+      fetch('/api/reserve', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        // .then(() => window.location.assign('/'));
+    } catch (e) {
+      console.log("Error", e)
+    }
+  }
+
   render(){
     const { rooms, room_types } = this.state
 
@@ -69,10 +161,10 @@ export default class extends React.Component {
       <div className="container">
         <div>
           <h1>Reservas<hr/></h1>
-          <h4 id="in">Fecha llegada: <input type="date" /></h4>
-          <h4 id="out">Fecha salida: <input type="date" /></h4>
+          <h4 id="in">Fecha llegada: <input onChange={this.handleStartDate} type="date" /></h4>
+          <h4 id="out">Fecha salida: <input onChange={this.handleEndDate} type="date" /></h4>
 
-          <select onChange={} defaultValue="Tipo habitación" className="roomType">
+          <select onChange={this.handleRoomType} defaultValue="Tipo habitación" className="roomType">
             <option disabled>Tipo habitación</option>
             {
               room_types.data &&
@@ -95,7 +187,7 @@ export default class extends React.Component {
             </label>
           </form>
 
-          <select className="roomList">
+          <select onChange={this.handleRoom} className="roomList">
             <option disabled>Habitacións</option>
             {
               rooms.data &&
@@ -106,9 +198,14 @@ export default class extends React.Component {
           </select>
         </div>
 
-        <button>Reservar</button> 
+        <button onClick={this.handleReserve}>Reservar</button> 
 
         <style jsx>{`
+          h1 {
+            padding-left: 15px;
+            padding-right: 15px;
+          }
+
           select{
             display: fixed;
           }

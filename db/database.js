@@ -97,12 +97,15 @@ module.exports = {
   },
 
   // Obtener habitaciones por tipo
-  getRoomsForType: (req, res, next) => {
+  getRoomsPerType: (req, res, next) => {
+    let { type } = req.params
+ 
     let query = ` 
       SELECT *
-      FROM tipohabitacion 
+      FROM habitacion
+      WHERE codTipoHab = $1
     `
-    return connection.any(query, [rutpasaporte])
+    return connection.any(query, type)
       .then(data => {
         res.status(200).json({ data })
       })
@@ -113,33 +116,34 @@ module.exports = {
 
   // Insertar reserva de un usuario
   insertReserve: (req, res, next) => {
-    let info = {
-      formareserva: '',
-      fechainicio: '',
-      fechafin: '',
-      requerimientosadicionales: '',
-      rutpasaporte: '',
-      rutrecepcion: '',
-    }
-
-    // Deberíamos utilizar req.body para sacar los .rut y demas
+    let { rut, start_date, end_date, request, cod_room, cod_type } = req.body
 
     connection.tx(t => {
       return t.sequence((order, data) => {
         if (order == 0) {
-
           let query = `
-                INSERT INTO reserva(formaReserva, fechaInicio, fechaFin, requerimientosAdicionales,
-                                                        numTarjetaCredito, bancoTarjetaCredito, rutPasaporte, rutRecepcion)
-                VALUES(${formareserva},${fechainicio},${requerimientosadicionales},'',
-                           '',${rutpasaporte},${rutrecepcion})
+                INSERT INTO reserva(formaReserva, fechaInicio, fechaFin, requerimientosAdicionales, numTarjetaCredito, bancoTarjetaCredito, rutPasaporte, rutRecepcion)
+                VALUES('Web',$2,$3,$4,0,'',$1,$1)
                 RETURNING codreserva`
-          return t.one(query, info)
+          return t.one(query, [rut, start_date, end_date, request])
         }
         if (order == 1) {
           let codigo = data.codreserva;
-          let query = `INSERT INTO reservaestado VALUES($1,1,NOW(),to_char(NOW(), 'hh:mi'))`
-          return connection.none(query, codigo)
+
+          let query = `
+                INSERT INTO reservaestado
+                VALUES ($1, 1, NOW(), to_char(NOW(), 'hh:mi'))
+                RETURNING codreserva`
+          return t.one(query, codigo)
+        }
+        if (order == 2) {
+          let codigo = data.codreserva;
+
+          let query = `
+                INSERT INTO asignacion
+                VALUES ($1, $2, $3)
+                `
+          return t.none(query, [codigo, cod_room, cod_type])
         }
       })
     })
@@ -151,37 +155,6 @@ module.exports = {
       })
   }
 };
-
-// querys.deleteClient = (req, res, next) => {
-// 	let rut = "11111111-1"
-// 	let nombre = "Jhon Doe"
-// 	let direc = "Unknown location"
-// 	let fono = 123456
-
-// 	let query = `DELETE FROM persona WHERE rutpasaporte = $1`
-// 	return connection.none(query, [rut,nombre,direc,fono])
-// 	.then( data => {
-// 		res.status(200).json({data})
-// 	})
-// 	.catch( err => {
-// 		res.status(500).json({error: err, message: 'Hubo un error'})
-// 	})
-// }
-
-// querys.addPerson = (req, res, next) => {
-
-// 	let rut = "11111111-1"
-// 	let nombre = "Jhon Doe"
-
-// 	let query = `INSERT INTO persona VALUES($1,$2)`
-// 	return connection.none(query, [rut,nombre])
-// 	.then( data => {
-// 		res.status(200).json({data})
-// 	})
-// 	.catch( err => {
-// 		res.status(500).json({error: err, message: 'Hubo un error'})
-// 	})
-// }
 
 // querys.addClient = (req, res, next) => {
 // 	connection.tx(t => {

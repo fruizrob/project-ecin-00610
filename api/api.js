@@ -10,9 +10,13 @@ router.get('/userInfo', function (req, res, next) {
 
 console.log(db)
 
+// POST
+router.post('/reserve', db.insertReserve)
+
 // GET
 router.get('/roomTypes', db.getRoomTypes)
-router.get('/allRooms', db.getAllRooms)
+router.get('/rooms', db.getAllRooms)
+router.get('/rooms/:type', db.getRoomsPerType)
 
 // ADMIN
 router.get('/reservations', db.getReservations)

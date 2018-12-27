@@ -85,8 +85,8 @@ CREATE TABLE  habitacion  (
    codTipoHab  integer,
    numPiso  integer,
    PRIMARY KEY ( numero ),
-   FOREIGN KEY ( codTipoHab ) references tipohabitacion(codTipoHab),
-   FOREIGN KEY ( numPiso ) references piso(numPiso)
+   FOREIGN KEY ( codTipoHab ) references tipohabitacion (codTipoHab),
+   FOREIGN KEY ( numPiso )    references piso           (numPiso)
 );
 
 CREATE TABLE  reserva  (
@@ -101,7 +101,7 @@ CREATE TABLE  reserva  (
    rutRecepcion  text, 
    PRIMARY KEY ( codReserva ),
    FOREIGN KEY ( rutPasaporte ) references cliente ( rutPasaporte ),
-   FOREIGN KEY ( rutRecepcion ) references "user" ( rutPasaporte )
+   FOREIGN KEY ( rutRecepcion ) references "user"  ( rutPasaporte )
 );
 
 CREATE TABLE cargoextra (
@@ -113,9 +113,9 @@ CREATE TABLE cargoextra (
   codTipoCargoExtra  integer,
   rutEmpleado  text,
   PRIMARY KEY ( codReserva , correlativoCargoExtra ),
-  FOREIGN KEY (codReserva) references reserva(codReserva),
-  FOREIGN KEY  (codTipoCargoExtra)references tipoCargoExtra(codTipoCargoExtra),
-  FOREIGN KEY (rutEmpleado) references "user" (rutPasaporte)
+  FOREIGN KEY (codReserva)        references reserva        (codReserva),
+  FOREIGN KEY (codTipoCargoExtra) references tipoCargoExtra (codTipoCargoExtra),
+  FOREIGN KEY (rutEmpleado)       references "user"         (rutPasaporte)
 );
 
 CREATE TABLE asignacion(
@@ -123,9 +123,9 @@ CREATE TABLE asignacion(
   numero integer,
   codTipoHab integer,
   PRIMARY KEY ( codReserva ),
-  FOREIGN KEY (codReserva) references reserva (codReserva),
-  FOREIGN KEY (numero) references habitacion (numero),
-  FOREIGN KEY (codTipoHab) references tipohabitacion(codTipoHab)
+  FOREIGN KEY (codReserva) references reserva        (codReserva),
+  FOREIGN KEY (numero)     references habitacion     (numero),
+  FOREIGN KEY (codTipoHab) references tipohabitacion (codTipoHab)
 );
 
 CREATE TABLE  pago  (
@@ -136,17 +136,17 @@ CREATE TABLE  pago  (
    fecha  date,
    numTarjetaCredito  integer,
    PRIMARY KEY ( numComprobante ),
-   FOREIGN KEY ( codFormaPago ) references formapago,
-   FOREIGN KEY  ( codReserva ) references reserva (codReserva)
+   FOREIGN KEY ( codFormaPago ) references formapago (codFormaPago),
+   FOREIGN KEY ( codReserva )   references reserva   (codReserva)
 );
 
 CREATE TABLE  pisodelimpieza  (
    rutPasaporte  text,
    numPiso  integer   ,
    numSemanaAnio  integer, 
-   PRIMARY KEY(rutPasaporte, numPiso, numSemanaAnio),
+   PRIMARY KEY (rutPasaporte, numPiso, numSemanaAnio),
    FOREIGN KEY (rutPasaporte) references "user"(rutPasaporte),
-   FOREIGN KEY (numPiso) references piso(numPiso)
+   FOREIGN KEY (numPiso)      references piso  (numPiso)
 );
 
 CREATE TABLE  reservaestado  (
@@ -155,8 +155,8 @@ CREATE TABLE  reservaestado  (
    fechaEstado  date,
    horaEstado  text,
    PRIMARY KEY ( codEstado , codReserva , fechaEstado ),
-   FOREIGN KEY  (codReserva) references reserva (codReserva),
-   FOREIGN KEY (codEstado) references estado (codEstado)
+   FOREIGN KEY (codReserva) references reserva (codReserva),
+   FOREIGN KEY (codEstado)  references estado  (codEstado)
 );
 
 CREATE TABLE  reservatipohabitacion  (
@@ -165,7 +165,7 @@ CREATE TABLE  reservatipohabitacion  (
    cantidad  integer,   
    PRIMARY KEY ( codReserva , codTipoHab ),
    FOREIGN KEY ( codTipoHab ) references tipohabitacion (codTipoHab),
-   FOREIGN KEY (codReserva) references reserva (codReserva)
+   FOREIGN KEY ( codReserva ) references reserva        (codReserva)
 );
 
 /* INSERT ESCENCIALES */
