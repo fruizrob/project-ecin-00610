@@ -10,7 +10,7 @@ export default class extends React.Component {
   state = {
     rut: '',
     name: '',
-    reservations: {},
+    reservations: [],
   }
 
   componentWillMount = async () => {
@@ -24,13 +24,12 @@ export default class extends React.Component {
           rut: rutpasaporte,
           name: nompersona
         })
-
-        console.log(this.state)
       }) 
       .catch((e) => {
         console.log(e)
       })
-    await fetch(`http://localhost:3000/api/reservations/${this.state.rut}`)
+    let rut = this.state.rut
+    await fetch(`http://localhost:3000/api/reservations/${rut}`)
       .then(res => res.json())
       .then(data => {
         this.setState({
@@ -41,6 +40,7 @@ export default class extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <Layout>
         <Header title="Home">
@@ -61,6 +61,7 @@ export default class extends React.Component {
         <style jsx>{`
          h1 {
            padding-left: 15px;
+           padding-right: 15px;
          }
         `}</style>
       </Layout>

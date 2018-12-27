@@ -50,14 +50,14 @@ module.exports = {
 
   // Obtener reservas de un usuario por rut
   getUserReservations:  (req, res, next) => {
-    const { rutpasaporte } = req.user
+    const { rut } = req.params
 
     let query = ` 
       SELECT * 
       FROM reserva
       WHERE rutpasaporte = $1 
     `
-    return connection.any(query, [rutpasaporte])
+    return connection.any(query, rut)
       .then(data => {
         res.status(200).json({ data })
       })
