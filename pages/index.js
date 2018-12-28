@@ -3,6 +3,7 @@ import Router from 'next/router'
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import Home from '../components/Home'
+import Footer from '../components/Footer'
 import HeaderButton from '../components/HeaderButton'
 import 'isomorphic-fetch'
 
@@ -54,6 +55,7 @@ export default class extends React.Component {
           </div>
           <div className="header-right">
             <HeaderButton name="Login" rute="/login"/>
+            <HeaderButton name="Registro" rute="/register"/>
           </div>
         </Header>
 

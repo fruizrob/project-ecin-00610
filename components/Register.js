@@ -21,18 +21,16 @@ export default class extends React.Component {
             input, button{
                 width: 100%;
             }
-            #regist{
-                width: 22%;
-                height: 70%;
-                background: #8756ca;
-                color: #fff;
-                top: 55%;
-                left: 50%;
-                position: absolute;
-                transform: translate(-50%, -50%);
-                box-sizing: border-box;
-                padding: 0 30px;
-                min-width: 170px;
+            .section {
+              display: grid;
+              justify-content: center;
+              margin-top: 30px;
+            }
+            #regist{  
+              background: #8756ca;
+              color: #fff;
+              padding: 20px 30px;
+              min-width: 170px;
             }
         `}</style>
 

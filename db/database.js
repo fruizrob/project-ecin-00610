@@ -210,7 +210,7 @@ module.exports = {
       })
   },
 
-  // Insertar reserva de un usuario
+  // Insertar pago de una reserva
   insertPayment: (req, res, next) => {
     const { rut, card, bank, codreserva, monto } = req.body
 
@@ -248,6 +248,7 @@ module.exports = {
       })
   },
 
+  // Insertar pago de una renserva desde admin
   insertAdminPayment: (req, res, next) => {
     const { codreserva } = req.body
 
@@ -303,4 +304,24 @@ module.exports = {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
   },
+
+  // Editar una habitación
+  editRoom: (req, res, next) => {
+    const { room, type } = req.body
+
+    console.log(req.body)
+
+    let query = ` 
+      UPDATE habitacion
+      SET codtipohab = $2
+      WHERE numero = $1
+    `
+    return connection.none(query, [room, type])
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  }
 };

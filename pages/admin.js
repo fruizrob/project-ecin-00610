@@ -26,7 +26,6 @@ export default class extends React.Component {
     modalPayReservation: false,
     modalEditReservation: false,
     modalInvoice: false,
-    modalAssignRoom: false,
     modalAddConsumption: false,
 
     // Selected Reservation
@@ -75,8 +74,6 @@ export default class extends React.Component {
       .catch(e => console.log(e))
   }
 
-
-
   componentDidMount = () => {
     this.getReservations()
   }
@@ -102,12 +99,6 @@ export default class extends React.Component {
   handleInvoice = () => {
     this.setState({
       modalInvoice: !this.state.modalInvoice,
-    })
-  }
-
-  handleAssignRoom = () => {
-    this.setState({
-      modalAssignRoom: !this.state.modalAssignRoom,
     })
   }
   
@@ -166,7 +157,6 @@ export default class extends React.Component {
             <Button handleClick={this.handleEditReservation} title="Editar"/>
             <Button handleClick={this.handleInvoice} title="Costo"/>
             <Button handleClick={this.handleAddConsumption} title="Agregar consumo"/>
-            <Button handleClick={this.handleAssignRoom} title="Asignar habitacion"/>
           </div>
 
           <ReservationGrid getReservationSelected={this.getReservationSelected} reservations={this.state.reservations} /> 
@@ -184,17 +174,12 @@ export default class extends React.Component {
 
         {
           this.state.modalEditReservation &&
-          <EditReservation onClose={this.handleEditReservation}/>
+          <EditReservation  onClose={this.handleEditReservation}/>
         }
 
         {
           this.state.modalInvoice &&
           <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleInvoice} />
-        }
-
-        {
-          this.state.modalAssignRoom &&
-          <AssignRoom onClose={this.handleAssignRoom} />
         }
 
         {

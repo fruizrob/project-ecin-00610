@@ -13,6 +13,7 @@ router.post('/reserve', db.insertReserve)
 router.post('/payment', db.insertPayment)
 router.post('/payment/admin', db.insertAdminPayment)
 router.post('/assign', db.assignFloor)
+router.post('/room/edit', db.editRoom)
 
 // GET
 router.get('/roomTypes', db.getRoomTypes)

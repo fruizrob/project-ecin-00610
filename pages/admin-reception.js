@@ -19,64 +19,39 @@ export default class extends React.Component {
     modalPayReservation: false,
     modalEditReservation: false,
     modalInvoice: false,
-    modalAssignRoom: false,
     modalAddConsumption: false,
   }
 
-  handleOpenPayReservation = () => {
+  handleAssignStaff = () => {
     this.setState({
-      modalPayReservation: true,
-    })
-  }
-  handleClosePayReservation = () => {
-    this.setState({
-      modalPayReservation: false,
-    })
-  }
-  handleOpenEditReservation = () => {
-    this.setState({
-      modalEditReservation: true,
-    })
-  }
-  handleCloseEditReservation = () => {
-    this.setState({
-      modalEditReservation: false,
-    })
-  }
-  handleOpenInvoice = () => {
-    this.setState({
-      modalInvoice: true,
-    })
-  }
-  handleCloseInvoice = () => {
-    this.setState({
-      modalInvoice: false,
+      modalAssignStaff: !this.state.modalAssignStaff,
     })
   }
 
-  handleOpenAssignRoom = () => {
+  handlePayReservation = () => {
     this.setState({
-      modalAssignRoom: true,
+      modalPayReservation: !this.state.modalPayReservation,
     })
   }
 
-  handleCloseAssignRoom = () => {
+  handleEditReservation = () => {
     this.setState({
-      modalAssignRoom: false,
+      modalEditReservation: !this.state.modalEditReservation,
     })
   }
 
-  handleOpenAddConsumption = () => {
+  handleInvoice = () => {
     this.setState({
-      modalAddConsumption: true,
+      modalInvoice: !this.state.modalInvoice,
     })
   }
 
-  handleCloseAddConsumption = () => {
+  handleAddConsumption = () => {
     this.setState({
-      modalAddConsumption: false,
+      modalAddConsumption: !this.state.modalAddConsumption,
     })
   }
+
 
   render() {
     return (
@@ -99,11 +74,10 @@ export default class extends React.Component {
         <div className="container-mid">
 
           <div className="buttons">
-            <Button handleClick={this.handleOpenPayReservation} title="Pagar reserva" />
-            <Button handleClick={this.handleOpenEditReservation} title="Editar" />
-            <Button handleClick={this.handleOpenInvoice} title="Costo" />
-            <Button handleClick={this.handleOpenAddConsumption} title="Agregar consumo"/>
-            <Button handleClick={this.handleOpenAssignRoom} title="Asignar habitacion"/>
+            <Button handleClick={this.handlePayReservation} title="Pagar reserva" />
+            <Button handleClick={this.handleEditReservation} title="Editar" />
+            <Button handleClick={this.handleInvoice} title="Costo" />
+            <Button handleClick={this.handleAddConsumption} title="Agregar consumo"/>
           </div>
 
           <ReservationGrid />
@@ -111,32 +85,27 @@ export default class extends React.Component {
 
         {
           this.state.modalAssignStaff &&
-          <AssignStaff onClose={this.handleCloseAssignStaff} />
+          <AssignStaff onClose={this.handleAssignStaff} />
         }
 
         {
           this.state.modalPayReservation &&
-          <PayReservation onClose={this.handleClosePayReservation} />
+          <PayReservation onClose={this.handlePayReservation} />
         }
 
         {
           this.state.modalEditReservation &&
-          <EditReservation onClose={this.handleCloseEditReservation} />
+          <EditReservation onClose={this.handleEditReservation} />
         }
 
         {
           this.state.modalInvoice &&
-          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleCloseInvoice} />
-        }
-
-        {
-          this.state.modalAssignRoom &&
-          <AssignRoom onClose={this.handleCloseAssignRoom} />
+          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleInvoice} />
         }
 
         {
           this.state.modalAddConsumption && 
-          <AddConsumption onClose={this.handleCloseAddConsumption} />
+          <AddConsumption onClose={this.handleAddConsumption} />
         }
 
 

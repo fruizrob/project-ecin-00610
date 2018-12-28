@@ -96,10 +96,9 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Login" rute="/login"/>
           </div>
-          <div className="header-right">
-            <a>Logo Genial</a>
+          <div className="header-right">            
+            <HeaderButton name="Login" rute="/login"/>
           </div>
         </Header>
 

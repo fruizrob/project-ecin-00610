@@ -33,9 +33,10 @@ export default class extends React.Component {
             reservations.map(reserve => {
               return (<div onClick={this.handleReservation} value={reserve.codreserva} key={reserve.codreserva} className="reservations-cards">
                 <p>Codigo: {reserve.codreserva}</p>
-                <p>Fecha Inicio: {reserve.fechainicio}</p>
-                <p>Fecha Termino: {reserve.fechafin}</p>
-                <p>Rut: {reserve.rutpasaporte}</p>
+                <p>Rut: {reserve.rutpasaporte}</p><hr></hr>
+                <p>Fechas</p>
+                <p>Inicio: {reserve.fechainicio.substring(0,10)}</p>
+                <p>Termino: {reserve.fechafin.substring(0,10)}</p>
               </div>)
             })
           }
@@ -59,6 +60,7 @@ export default class extends React.Component {
           }
           .selected {
             background: #C70039;
+            box-shadow: 0px 2px 6px rgba(1, 1, 1, 2);
             color: white;
           }
         `}</style>

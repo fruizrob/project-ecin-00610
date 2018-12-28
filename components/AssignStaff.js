@@ -89,7 +89,7 @@ export default class extends React.Component {
             })
           }
         </select>
-        <select defaultValue="Piso"onChange={this.handleFloor}>
+        <select defaultValue="Piso" onChange={this.handleFloor}>
           <option disabled>Piso</option>
           {
             floors &&
