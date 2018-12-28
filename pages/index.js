@@ -51,15 +51,20 @@ export default class extends React.Component {
         <Header title="Home">
           <div className="header-left">
             <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Login" rute="/login"/>
           </div>
           <div className="header-right">
-            <a>Logo Genial</a>
+            <HeaderButton name="Login" rute="/login"/>
           </div>
         </Header>
 
         <Home />
 
+        <style jsx>{`
+          .logo {
+            margin: 0px;
+            padding: 0px;
+          }
+        `}</style>
       </Layout>
     )
   }
