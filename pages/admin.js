@@ -28,7 +28,38 @@ export default class extends React.Component {
     modalInvoice: false,
     modalAssignRoom: false,
     modalAddConsumption: false,
+
+    // Selected Reservation
+    id: '',
+    rut: '',
+    start: '',
+    end: '',
+    type: '',
+    bank: '',
+    credit_card: '',
+    aditional: '',
+    rut_employe: '',
   }
+
+  getReservationSelected = (cod) => {
+    fetch(`/api/reservations/${cod}`)
+      .then(res => res.json())
+      .then(data => {
+        const reservation = data.data[0]
+        this.setState({
+          id: reservation.codreserva,
+          rut: reservation.rutpasaporte,
+          start: reservation.fechainicio,
+          end: reservation.fechafin,
+          type: reservation.formareserva,
+          bank: reservation.bancotarjetacredito,
+          credit_card: reservation.numtarjetacredito,
+          aditional: reservation.requerimientosadicionales,
+          rut_employe: reservation.rutrecepcion,
+        })
+      })
+  }
+
   // Obtener Reservas
   getReservations = () => {
     fetch('http://localhost:3000/api/reservations')
@@ -45,70 +76,34 @@ export default class extends React.Component {
     this.getReservations()
   }
 
-
-
-  handleOpenAssignStaff = () => {
+  handleAssignStaff = () => {
     this.setState({
-      modalAssignStaff: true,
+      modalAssignStaff: !this.state.modalAssignStaff,
     })
   }
-  handleCloseAssignStaff = () => {
+  handlePayReservation = () => {
     this.setState({
-      modalAssignStaff: false,
+      modalPayReservation: !this.state.modalPayReservation,
     })
   }
-  handleOpenPayReservation = () => {
+  handleEditReservation = () => {
     this.setState({
-      modalPayReservation: true,
+      modalEditReservation: !this.state.modalEditReservation,
     })
   }
-  handleClosePayReservation = () => {
+  handleInvoice = () => {
     this.setState({
-      modalPayReservation: false,
+      modalInvoice: !this.state.modalInvoice,
     })
   }
-  handleOpenEditReservation = () => {
+  handleAssignRoom = () => {
     this.setState({
-      modalEditReservation: true,
+      modalAssignRoom: !this.state.modalAssignRoom,
     })
   }
-  handleCloseEditReservation = () => {
+  handleAddConsumption = () => {
     this.setState({
-      modalEditReservation: false,
-    })
-  }
-  handleOpenInvoice = () => {
-    this.setState({
-      modalInvoice: true,
-    })
-  }
-  handleCloseInvoice = () => {
-    this.setState({
-      modalInvoice: false,
-    })
-  }
-
-  handleOpenAssignRoom = () => {
-    this.setState({
-      modalAssignRoom: true,
-    })
-  }
-
-  handleCloseAssignRoom = () => {
-    this.setState({
-      modalAssignRoom: false,
-    })
-  }
-
-  handleOpenAddConsumption = () => {
-    this.setState({
-      modalAddConsumption: true,
-    })
-  }
-
-  handleCloseAddConsumption = () => {
-    this.setState({
-      modalAddConsumption: false,
+      modalAddConsumption: !this.state.modalAddConsumption,
     })
   }
 
@@ -134,45 +129,45 @@ export default class extends React.Component {
         <div className="container-mid">
 
           <div className="buttons">
-            <Button handleClick={this.handleOpenAssignStaff} title="Asignar Personal"/>
-            <Button handleClick={this.handleOpenPayReservation} title="Pagar reserva"/>
-            <Button handleClick={this.handleOpenEditReservation} title="Editar"/>
-            <Button handleClick={this.handleOpenInvoice} title="Costo"/>
-            <Button handleClick={this.handleOpenAddConsumption} title="Agregar consumo"/>
-            <Button handleClick={this.handleOpenAssignRoom} title="Asignar habitacion"/>
+            <Button handleClick={this.handleAssignStaff} title="Asignar Personal"/>
+            <Button handleClick={this.handlePayReservation} title="Pagar reserva"/>
+            <Button handleClick={this.handleEditReservation} title="Editar"/>
+            <Button handleClick={this.handleInvoice} title="Costo"/>
+            <Button handleClick={this.handleAddConsumption} title="Agregar consumo"/>
+            <Button handleClick={this.handleAssignRoom} title="Asignar habitacion"/>
           </div>
 
-          <ReservationGrid reservations={this.state.reservations} /> 
+          <ReservationGrid getReservationSelected={this.getReservationSelected} reservations={this.state.reservations} /> 
         </div>
         
         {
           this.state.modalAssignStaff &&
-          <AssignStaff onClose={this.handleCloseAssignStaff}/>
+          <AssignStaff onClose={this.handleAssignStaff}/>
         }
         
         {
           this.state.modalPayReservation &&
-          <PayReservation onClose={this.handleClosePayReservation}/>
+          <PayReservation onClose={this.handlePayReservation}/>
         }
 
         {
           this.state.modalEditReservation &&
-          <EditReservation onClose={this.handleCloseEditReservation}/>
+          <EditReservation onClose={this.handleEditReservation}/>
         }
 
         {
           this.state.modalInvoice &&
-          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleCloseInvoice} />
+          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleInvoice} />
         }
 
         {
           this.state.modalAssignRoom &&
-          <AssignRoom onClose={this.handleCloseAssignRoom} />
+          <AssignRoom onClose={this.handleAssignRoom} />
         }
 
         {
           this.state.modalAddConsumption && 
-          <AddConsumption onClose={this.handleCloseAddConsumption} />
+          <AddConsumption onClose={this.handleAddConsumption} />
         }
         
 

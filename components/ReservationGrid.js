@@ -3,17 +3,6 @@ export default class extends React.Component {
   state = {
     selected: false,
     selectedTarget: '',
-
-    // Selected Reservation
-    id: '',
-    rut: '',
-    start: '',
-    end: '',
-    type: '',
-    bank: '',
-    credit_card: '',
-    aditional: '',
-    rut_employe: '',
   }
 
   handleReservation = (ev) => {
@@ -31,28 +20,7 @@ export default class extends React.Component {
       selectedTarget: ev.currentTarget
     })
 
-    this.getReservationSelected(ev.currentTarget.getAttribute('value'))
-    console.log(this.state)
-  }
-
-  getReservationSelected = (cod) => {
-    fetch(`/api/reservations/${cod}`)
-      .then(res => res.json())
-      .then(data => {
-        const reservation = data.data[0]
-        console.log(data.data[0])
-        this.setState({
-          id: reservation.codreserva,
-          rut: reservation.rutpasaporte,
-          start: reservation.fechainicio,
-          end: reservation.fechafin,
-          type: reservation.formareserva,
-          bank: reservation.bancotarjetacredito,
-          credit_card: reservation.numtarjetacredito,
-          aditional: reservation.requerimientosadicionales,
-          rut_employe: reservation.rutrecepcion,
-        })
-      })
+    this.props.getReservationSelected(ev.currentTarget.getAttribute('value'))
   }
 
   render() {

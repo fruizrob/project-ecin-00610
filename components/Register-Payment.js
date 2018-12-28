@@ -15,32 +15,23 @@ export default class extends React.Component {
             <img className="debit" src="../static/debit.png" />
           </div>
           <div>
-            <form className="form-container" onSubmit={this.props.canBeSubmitted} >
+            <div className="form-container">
                 <input onChange={this.props.handleCard} type="text" placeholder="Nº tarjeta" pattern="[0-9]{4,20}$" required /><p />
                 <input onChange={this.props.handleBank} type="text" placeholder="Banco de Tarjeta" required /><p />
                 <input type="text" placeholder="Código de seguridad (CVV)" pattern="[0-9]{3,4}$" required /><p />
-                <button type="submit">Realizar pago</button>
-            </form>
+                <button onClick={this.props.canBeSubmitted}>Realizar pago</button>
+                <button onClick={this.props.handlePayment}>Cerrar</button>
+            </div>
           </div>
         </div>
 
         <style jsx>{`
         .container{
           min-width: 630px;
+          padding-left: 15px;
+          padding-right: 15px;
         }
-        .form-container{
-          min-width: 300px;
-          width: 50%;
-          height: 30%;
-          background: #8756ca;
-          color: #fff;
-          left: 50%;
-          top: 60%;
-          transform: translate(-50%, -50%);
-          position: fixed;
-          box-sizing: border-box;
-          padding: 30px 30px;
-        }
+
         h2{
           text-align: center;
         }

@@ -1,8 +1,10 @@
 import Header from '../components/Header'
 import Layout from '../components/Layout'
 import Home from '../components/Home'
+import Button from '../components/Button'
 import HeaderButton from '../components/HeaderButton'
 import ReservationGrid from '../components/ReservationGrid'
+import Payment from '../components/Payment'
 import 'isomorphic-fetch'
 
 export default class extends React.Component {
@@ -11,6 +13,38 @@ export default class extends React.Component {
     rut: '',
     name: '',
     reservations: [],
+
+    modalPayment: false,
+
+    // Selected Reservation
+    id: '',
+    rut: '',
+    start: '',
+    end: '',
+    type: '',
+    bank: '',
+    credit_card: '',
+    aditional: '',
+    rut_employe: '',
+  }
+
+  getReservationSelected = (cod) => {
+    fetch(`/api/reservations/${cod}`)
+      .then(res => res.json())
+      .then(data => {
+        const reservation = data.data[0]
+        this.setState({
+          id: reservation.codreserva,
+          rut: reservation.rutpasaporte,
+          start: reservation.fechainicio,
+          end: reservation.fechafin,
+          type: reservation.formareserva,
+          bank: reservation.bancotarjetacredito,
+          credit_card: reservation.numtarjetacredito,
+          aditional: reservation.requerimientosadicionales,
+          rut_employe: reservation.rutrecepcion,
+        })
+      })
   }
 
   componentWillMount = async () => {
@@ -39,8 +73,13 @@ export default class extends React.Component {
 
   }
 
+  handlePayment = () => {
+    this.setState({
+      modalPayment: !this.state.modalPayment
+    })
+  }
+
   render() {
-    console.log(this.state)
     return (
       <Layout>
         <Header title="Home">
@@ -56,13 +95,25 @@ export default class extends React.Component {
         </Header>
 
         <h1>Mis reservas<hr /></h1>
-        <ReservationGrid reservations={this.state.reservations} />
+        <ReservationGrid getReservationSelected={this.getReservationSelected} reservations={this.state.reservations} />
+        <div className="pay-button">
+          <Button title="Pagar" handleClick={this.handlePayment} />
+        </div>
+
+        {
+          this.state.modalPayment &&
+          <Payment reservation={this.state.id} handlePayment={this.handlePayment} />
+        }
 
         <style jsx>{`
-         h1 {
-           padding-left: 15px;
-           padding-right: 15px;
-         }
+          h1 {
+            padding-left: 15px;
+            padding-right: 15px;
+          }
+          .pay-button {
+            margin-left: 15px;
+            width: 20%
+          }
         `}</style>
       </Layout>
     )

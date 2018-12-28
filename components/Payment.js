@@ -1,5 +1,5 @@
 import Header from '../components/Header'
-import Layout from '../components/Layout'
+import Modal from '../components/Modal'
 import HeaderButton from '../components/HeaderButton'
 import RegPay from '../components/Register-Payment'
 import 'isomorphic-fetch'
@@ -11,7 +11,6 @@ export default class extends React.Component {
     card: '',
     bank: '',
     monto: 80000,
-    codreserva: 29,
   }
 
   componentWillMount = () => {
@@ -31,15 +30,17 @@ export default class extends React.Component {
   }
 
 
-  newPay = async () => {
+  newPay = () => {
     try {
       let form = {
         rut: this.state.rut,
         card: this.state.card,
         bank: this.state.bank,
         monto: this.state.monto,
-        codreserva: this.state.codreserva,
+        codreserva: this.props.reservation,
       }
+
+      console.log(form)
   
       const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
       let data = serialize(form)
@@ -52,7 +53,7 @@ export default class extends React.Component {
         }
       }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(() => window.location.assign('/user'));
+        // .then(() => window.location.assign('/user'));
     } catch (e) {
       console.log("Error", e)
     }
@@ -81,17 +82,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <Layout>
-        <Header title="Home">
-          <div className="header-left">
-            <HeaderButton name="Inicio" rute="/" />
-            <HeaderButton name="Reservar!" rute="/reserve" />
-            <HeaderButton name="Mis Reservas" rute="/user" />
-          </div>
-          <div className="header-right">
-            <HeaderButton name="Cerrar Sesión" rute="/auth/logout"/>
-          </div>
-        </Header>
+      <Modal>
 
         <RegPay
           handleRut = {this.handleRut}
@@ -99,11 +90,12 @@ export default class extends React.Component {
           handleCard = {this.handleCard}
           handleBank = {this.handleBank}
           canBeSubmitted = {this.canBeSubmitted}
+          handlePayment = {this.props.handlePayment}
         />
 
         <style jsx>{``}</style>
         
-      </Layout>
+      </Modal>
     )
   }
 }

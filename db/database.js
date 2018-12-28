@@ -179,7 +179,8 @@ module.exports = {
 
   // Insertar reserva de un usuario
   insertPayment: (req, res, next) => {
-    let { rut, card, bank, monto, codreserva } = req.body
+    const { rut, card, bank, codreserva, monto } = req.body
+    console.log(req.body)
 
     connection.tx(t => {
       return t.sequence((order, data) => {
@@ -189,21 +190,21 @@ module.exports = {
                 SET numTarjetaCredito = $2, bancoTarjetaCredito = $3
                 WHERE rutpasaporte = $1 AND codreserva = $4
                 `
-          return t.any(query, [rut, Number(card), bank, Number(codreserva)])
+          return t.any(query, [rut, card, bank, codreserva])
         }
         if (order == 1) {
           let query = `
                 INSERT INTO pago(codFormaPago, codReserva, monto, fecha, numTarjetaCredito)
                 VALUES (4, $2, $3, NOW(), $1)
                 `
-          return t.none(query, [Number(card), Number(codreserva), monto])
+          return t.none(query, [card, codreserva, monto])
         }
         if (order == 2) {
           let query = `
                 INSERT INTO reservaestado
                 VALUES ($1, 3, NOW(), to_char(NOW(), 'hh:mi'))
                 `
-          return t.none(query, Number(codreserva))
+          return t.none(query, codreserva)
         }
       })
     })
