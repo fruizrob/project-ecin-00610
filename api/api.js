@@ -21,5 +21,7 @@ router.get('/rooms/:type', db.getRoomsPerType)
 router.get('/reservations', db.getReservations)
 router.get('/reservations/user/:rut', db.getUserReservations)
 router.get('/reservations/:id', db.getReservationSelected)
+router.get('/staff', db.getAllStaff)
+router.get('/floors', db.getAllFloors)
 
 module.exports = router;

@@ -148,7 +148,7 @@ export default class extends React.Component {
         }
       }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        // .then(() => window.location.assign('/'));
+        .then(() => window.location.assign('/user'));
     } catch (e) {
       console.log("Error", e)
     }
@@ -187,8 +187,8 @@ export default class extends React.Component {
             </label>
           </form>
 
-          <select onChange={this.handleRoom} className="roomList">
-            <option disabled>Habitacións</option>
+          <select onChange={this.handleRoom} defaultValue="Habitación" className="roomList">
+            <option disabled>Habitación</option>
             {
               rooms.data &&
               rooms.data.map(room => {

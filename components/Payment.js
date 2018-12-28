@@ -74,7 +74,7 @@ export default class extends React.Component {
   canBeSubmitted = () => {
     try{
       this.newPay()
-      alert('Pago exitoso!')
+      // alert('Pago exitoso!')
     }catch(e){
       console.log("Error", e)
     }
