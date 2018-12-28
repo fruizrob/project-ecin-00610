@@ -351,4 +351,21 @@ module.exports = {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
   },
+
+  gettingDays: (req, res, next) => {
+    const { id: codreserva } = req.params
+
+    let query = ` 
+      SELECT (fechafin - fechainicio) as cantDay
+      FROM reserva
+      WHERE codreserva = $1
+    `
+    return connection.one(query, codreserva)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
 };

@@ -5,6 +5,7 @@ export default class extends React.Component {
 
   state = {
     cost: '',
+    day: '',
   }
 
   getCosts = () => {
@@ -13,6 +14,17 @@ export default class extends React.Component {
       .then(data => {
         this.setState({
           cost: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+  getDays = () => {
+    fetch(`http://localhost:3000/api/days/${this.props.codreserva}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          day: data.data
         })
       })
       .catch(e => console.log(e))
@@ -27,9 +39,20 @@ export default class extends React.Component {
     return cost;
   }
 
-  componentDidMount = () => {
+  calcDay = () => {
+    if(this.state.day){
+      let {cantday} = this.state.day
+      if(cantday > 0){
+        return (10000*cantday)
+      }
+    }
+    return 10000;    
+  }
+
+  componentWillMount = () => {
     if(this.props.codreserva){
       this.getCosts()
+      this.getDays()
     }else{
       alert('Faltó seleccionar una reserva')
       this.props.onClose()
@@ -37,7 +60,7 @@ export default class extends React.Component {
   }
 
   render() {
-    let costoAlojamiento = 10000;
+    let costoAlojamiento = this.calcDay();
     let costoConsumo = this.calcCost();
     return (
       <Modal className="modal-container">

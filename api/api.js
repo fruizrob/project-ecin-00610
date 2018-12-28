@@ -26,5 +26,6 @@ router.get('/staff', db.getAllStaff)
 router.get('/floors', db.getAllFloors)
 router.get('/consumptions', db.getConsumptions)
 router.get('/cost/:id', db.getConsumption)
+router.get('/days/:id', db.gettingDays)
 
 module.exports = router;
