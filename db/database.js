@@ -274,5 +274,36 @@ module.exports = {
       .catch(err => {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
-    }
+  },
+
+  getConsumptions: (req, res, next) => {
+    let query = ` 
+      SELECT *
+      FROM tipocargoextra 
+    `
+    return connection.any(query)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
+  insertConsumption: (req, res, next) => {
+    let { consumption, rut, codreserva } = req.body
+
+    let query = ` 
+      INSERT INTO cargoextra(codreserva, fecha, hora, codtipocargoextra, rutempleado)
+      VALUES($1,NOW(),to_char(NOW(), 'hh:mi'),$2,$3)
+    `
+    return connection.any(query, [codreserva, consumption, rut])
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
 };
