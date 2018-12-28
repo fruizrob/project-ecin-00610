@@ -144,6 +144,7 @@ CREATE TABLE  pisodelimpieza  (
    rutPasaporte  text,
    numPiso  integer   ,
    numSemanaAnio  integer, 
+   fecha date,
    PRIMARY KEY (rutPasaporte, numPiso, numSemanaAnio),
    FOREIGN KEY (rutPasaporte) references "user"(rutPasaporte),
    FOREIGN KEY (numPiso)      references piso  (numPiso)
@@ -166,6 +167,17 @@ CREATE TABLE  reservatipohabitacion  (
    PRIMARY KEY ( codReserva , codTipoHab ),
    FOREIGN KEY ( codTipoHab ) references tipohabitacion (codTipoHab),
    FOREIGN KEY ( codReserva ) references reserva        (codReserva)
+);
+
+CREATE TABLE evento (
+    rutPasaporte text,
+    numero integer,
+    codEvento serial,
+    fecha date,
+    descripcion text,
+    PRIMARY KEY (codEvento),
+    FOREIGN KEY (rutPasaporte) references "user" (rutPasaporte),
+    FOREIGN KEY (numero) references habitacion (numero)
 );
 
 /* INSERT ESCENCIALES */

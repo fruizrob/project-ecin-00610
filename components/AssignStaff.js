@@ -2,12 +2,54 @@ import Modal from './Modal'
 import Button from './Button'
 
 export default class extends React.Component {
+
+  state = {
+    rut: '',
+    floor: '',
+  }
+
+  handleAssign = () => {
+    if(this.state.rut && this.state.floor){
+      let form = {
+        rut: this.state.rut,
+        floor: this.state.floor,
+      }
+
+      const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
+      let data = serialize(form)
+
+      fetch('/api/assign', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(() => this.props.onClose());
+    }else{
+        alert('Falta seleccionar empleado y/o piso')
+      }
+  }
+
+  handleStaff = (ev) => {
+    this.setState({
+      rut: ev.target.value,
+    })
+  }
+
+  handleFloor = (ev) => {
+    this.setState({
+      floor: ev.target.value,
+    })
+  }
+
   render(){
     const {staff, floors} = this.props
     return (
       <Modal className="modal-container">
         <h2>Asignar Personal<hr/></h2>
-        <select defaultValue="Rut personal">
+        <select defaultValue="Rut personal" onChange={this.handleStaff}>
           <option disabled>Rut personal</option>
           {
             staff &&
@@ -16,7 +58,7 @@ export default class extends React.Component {
             })
           }
         </select>
-        <select defaultValue="Piso">
+        <select defaultValue="Piso"onChange={this.handleFloor}>
           <option disabled>Piso</option>
           {
             floors &&
@@ -25,7 +67,7 @@ export default class extends React.Component {
             })
           }
         </select>
-        <Button handleClick={this.props.onClose} title="Agregar"/>
+        <Button handleClick={this.handleAssign} title="Agregar"/>
         <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
