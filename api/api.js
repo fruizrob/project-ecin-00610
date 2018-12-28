@@ -25,5 +25,6 @@ router.get('/reservations/:id', db.getReservationSelected)
 router.get('/staff', db.getAllStaff)
 router.get('/floors', db.getAllFloors)
 router.get('/consumptions', db.getConsumptions)
+router.get('/cost/:id', db.getConsumption)
 
 module.exports = router;

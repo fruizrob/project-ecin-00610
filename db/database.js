@@ -333,4 +333,22 @@ module.exports = {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
   },
+
+  getConsumption: (req, res, next) => {
+    const { id: codreserva } = req.params
+
+    let query = ` 
+      SELECT tipocargoextra.costo
+      FROM cargoextra
+        INNER JOIN tipocargoextra ON (cargoextra.codtipocargoextra = tipocargoextra.codtipocargoextra)
+      WHERE codreserva = $1
+    `
+    return connection.any(query, codreserva)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
 };

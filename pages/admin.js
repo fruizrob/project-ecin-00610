@@ -202,7 +202,7 @@ export default class extends React.Component {
 
         {
           this.state.modalInvoice &&
-          <Invoice onClose={this.handleInvoice} />
+          <Invoice codreserva={this.state.id} onClose={this.handleInvoice} />
         }
 
         {
