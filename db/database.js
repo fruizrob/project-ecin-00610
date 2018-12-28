@@ -114,6 +114,37 @@ module.exports = {
       })
   },
 
+  // Obtener personal de aseo
+  getAllStaff: (req, res, next) => { 
+    let query = ` 
+      SELECT *
+      FROM "user"
+      WHERE user_type_id = 'PT'
+    `
+    return connection.any(query)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
+  // Obtener personal de aseo
+  getAllFloors: (req, res, next) => {
+    let query = ` 
+      SELECT *
+      FROM piso
+    `
+    return connection.any(query)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
   // Insertar reserva de un usuario
   insertReserve: (req, res, next) => {
     let { rut, start_date, end_date, request, cod_room, cod_type, emp } = req.body
@@ -121,6 +152,8 @@ module.exports = {
     if(!emp){
       emp = '-'
     }
+
+    console.log(emp)
 
     connection.tx(t => {
       return t.sequence((order, data) => {

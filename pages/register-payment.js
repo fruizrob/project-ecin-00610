@@ -11,7 +11,7 @@ export default class extends React.Component {
     card: '',
     bank: '',
     monto: 80000,
-    codreserva: 29,
+    codreserva: 2,
   }
 
   componentWillMount = () => {
@@ -29,7 +29,6 @@ export default class extends React.Component {
         console.log(err);
       })
   }
-
 
   newPay = async () => {
     try {
@@ -52,7 +51,7 @@ export default class extends React.Component {
         }
       }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(() => window.location.assign('/user'));
+        // .then(() => window.location.assign('/user'));
     } catch (e) {
       console.log("Error", e)
     }
@@ -73,7 +72,7 @@ export default class extends React.Component {
   canBeSubmitted = () => {
     try{
       this.newPay()
-      alert('Pago exitoso!')
+      // alert('Pago exitoso!')
     }catch(e){
       console.log("Error", e)
     }

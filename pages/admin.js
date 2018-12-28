@@ -20,6 +20,8 @@ export default class extends React.Component {
   state = {
     // Data
     reservations: [],
+    staff: [],
+    floors: [],
 
     // Toggle modals
     modalAssignStaff: false,
@@ -41,13 +43,37 @@ export default class extends React.Component {
       .catch(e => console.log(e))
   }
 
+  // Obtener personal aseo
+  getStaff = () => {
+    fetch('http://localhost:3000/api/staff')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          staff: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+  // Obtener los pisos
+  getFloors = () => {
+    fetch('http://localhost:3000/api/floors')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          floors: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
   componentDidMount = () => {
     this.getReservations()
   }
 
-
-
   handleOpenAssignStaff = () => {
+    this.getStaff()
+    this.getFloors()
     this.setState({
       modalAssignStaff: true,
     })
@@ -117,7 +143,7 @@ export default class extends React.Component {
       <Layout>
         <Header title="Home">
           <div className="header-left">
-          <HeaderButton name="Inicio" rute="/" />
+            <HeaderButton name="Inicio" rute="/" />
             <HeaderButton name="Reporte" rute="/" />
           </div>
           <div className="header-right">
@@ -147,7 +173,7 @@ export default class extends React.Component {
         
         {
           this.state.modalAssignStaff &&
-          <AssignStaff onClose={this.handleCloseAssignStaff}/>
+          <AssignStaff staff={this.state.staff} floors={this.state.floors} onClose={this.handleCloseAssignStaff}/>
         }
         
         {
