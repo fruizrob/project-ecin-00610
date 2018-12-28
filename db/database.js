@@ -213,7 +213,6 @@ module.exports = {
   // Insertar reserva de un usuario
   insertPayment: (req, res, next) => {
     const { rut, card, bank, codreserva, monto } = req.body
-    console.log(req.body)
 
     connection.tx(t => {
       return t.sequence((order, data) => {
@@ -247,5 +246,35 @@ module.exports = {
       .catch(err => {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
-  }
+  },
+
+  insertAdminPayment: (req, res, next) => {
+    const { codreserva } = req.body
+
+    connection.tx(t => {
+      return t.sequence((order, data) => {
+        if (order == 0) {
+          let query = `
+          INSERT INTO pago(codFormaPago, codReserva, monto, fecha, numTarjetaCredito)
+          VALUES (1, $1, 10000, NOW(), 0)
+          `
+          return t.none(query, codreserva)
+        }
+        if (order == 1) {
+          let query = `
+                INSERT INTO reservaestado
+                VALUES ($1, 3, NOW(), to_char(NOW(), 'hh:mi'))
+                `
+          return t.none(query, codreserva)
+        }
+      })
+    })
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
 };

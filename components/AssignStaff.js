@@ -2,8 +2,43 @@ import Modal from './Modal'
 import Button from './Button'
 
 export default class extends React.Component {
+
+  state = {
+    staff: [],
+    floors: []
+  }
+
+  // Obtener personal aseo
+  getStaff = () => {
+    fetch('http://localhost:3000/api/staff')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          staff: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+  // Obtener los pisos
+  getFloors = () => {
+    fetch('http://localhost:3000/api/floors')
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          floors: data.data
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
+  componentDidMount = () => {
+    this.getStaff()
+    this.getFloors()
+  }
+
   render(){
-    const {staff, floors} = this.props
+    const {staff, floors} = this.state
     return (
       <Modal className="modal-container">
         <h2>Asignar Personal<hr/></h2>

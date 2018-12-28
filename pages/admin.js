@@ -20,8 +20,6 @@ export default class extends React.Component {
   state = {
     // Data
     reservations: [],
-    staff: [],
-    floors: [],
 
     // Toggle modals
     modalAssignStaff: false,
@@ -74,34 +72,10 @@ export default class extends React.Component {
       .catch(e => console.log(e))
   }
 
-  // Obtener personal aseo
-  getStaff = () => {
-    fetch('http://localhost:3000/api/staff')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          staff: data.data
-        })
-      })
-      .catch(e => console.log(e))
-  }
 
-  // Obtener los pisos
-  getFloors = () => {
-    fetch('http://localhost:3000/api/floors')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          floors: data.data
-        })
-      })
-      .catch(e => console.log(e))
-  }
 
   componentDidMount = () => {
     this.getReservations()
-    this.getStaff()
-    this.getFloors()
   }
 
   handleAssignStaff = () => {
@@ -180,7 +154,7 @@ export default class extends React.Component {
         
         {
           this.state.modalPayReservation &&
-          <PayReservation onClose={this.handlePayReservation}/>
+          <PayReservation reservations={this.state.reservations} onClose={this.handlePayReservation}/>
         }
 
         {

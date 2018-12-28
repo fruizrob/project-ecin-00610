@@ -2,31 +2,57 @@ import Modal from './Modal'
 import Button from './Button'
 
 export default class extends React.Component {
-  // For para la lista de pisos
-  createRows = () => {
-    let rows = []
 
-    for (let i = 0; i < 20; i++) {
-      rows.push(<option key={i}> { `Piso: ${ i + 1 }` } </option>)
+  state = {
+    reservation: '',
+  }
+
+  handlePay = () => {
+    const form = {
+      codreserva: this.state.reservation
     }
-    return rows
+
+    const serialize = (obj) => (Object.entries(obj).map(i => [i[0], encodeURIComponent(i[1])].join('=')).join('&'))
+    let data = serialize(form)
+
+    fetch(`/api/payment/admin`, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(() => this.props.onClose());
+  }
+
+  handleReservation = (ev) => {
+    this.setState({
+      reservation: ev.target.value,
+    }) 
   }
 
   render(){
-    const costo = 0;
+    const { reservations } = this.props
+
     return (
       <Modal className="modal-container">
         <h2>Pagar Reserva</h2>
-        <select>
-          { this.createRows() }
+        <select onChange={this.handleReservation}>
+          {
+            reservations &&
+            reservations.map(reservation => {
+              return <option value={reservation.codreserva} key={reservation.codreserva}>{reservation.codreserva}</option>
+            })
+          }
         </select>
-        <p>Costo: ${costo}</p>
-        <Button handleClick={this.props.onClose} title="Pagar" />
+        <Button handleClick={this.handlePay} title="Pagar" />
         <Button handleClick={this.props.onClose} title="Cerrar" />
 
         <style jsx>{`
-          h2, select {
-            margin: 15px;
+          select {
+            margin-bottom: 20px;
           }
         `}</style>
 

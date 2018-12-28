@@ -8,11 +8,10 @@ router.get('/userInfo', function (req, res, next) {
 	})
 })
 
-console.log(db)
-
 // POST
 router.post('/reserve', db.insertReserve)
 router.post('/payment', db.insertPayment)
+router.post('/payment/admin', db.insertAdminPayment)
 
 // GET
 router.get('/roomTypes', db.getRoomTypes)
