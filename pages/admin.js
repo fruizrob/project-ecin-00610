@@ -39,8 +39,10 @@ export default class extends React.Component {
     credit_card: '',
     aditional: '',
     rut_employe: '',
-<<<<<<< HEAD
     curr_emp_rut: '',
+
+    // Search
+    user: ''
   }
 
   getUser = () => {
@@ -54,11 +56,6 @@ export default class extends React.Component {
       .catch(err => {
         console.log(err);
       })
-=======
-
-    // Search
-    user: ''
->>>>>>> f33825bd5a3eebb806a49407793ab8f2c5e68c39
   }
 
   getReservationSelected = (cod) => {
@@ -92,12 +89,8 @@ export default class extends React.Component {
       .catch(e => console.log(e))
   }
 
-
-
   componentDidMount = () => {
     this.getReservations()
-    this.getStaff()
-    this.getFloors()
     this.getUser()
   }
 
