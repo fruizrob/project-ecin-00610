@@ -277,4 +277,30 @@ module.exports = {
       })
   },
 
+  // Asignar personal de aseo a un piso de la acutal semana
+  assignFloor: (req, res, next) => {
+    let { rut, floor } = req.body
+    connection.tx(t => {
+      return t.sequence((order, data) => {
+        if (order == 0) {
+          let query = `SELECT date_part('week', NOW())`
+          return t.one(query)
+        }
+        if (order == 1) {
+          let { datePart } = data
+          let query = `
+                INSERT INTO pisodelimpieza
+                VALUES ($1, $2, $3, NOW())
+                `
+          return t.none(query, [rut, floor, datePart])
+        }
+      })
+    })
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
 };

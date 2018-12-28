@@ -39,6 +39,9 @@ export default class extends React.Component {
     credit_card: '',
     aditional: '',
     rut_employe: '',
+
+    // Search
+    user: ''
   }
 
   getReservationSelected = (cod) => {
@@ -114,6 +117,28 @@ export default class extends React.Component {
     })
   }
 
+  handleSearchUser = (ev) => {
+    if(ev.target.value == ''){
+      this.getReservations()
+    } else {
+      this.setState({
+        user: ev.target.value
+      })
+    }
+  }
+
+  handleSearch = () => {
+    let rut = this.state.user
+    fetch(`http://localhost:3000/api/reservations/user/${rut}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          reservations: data.data,
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
   render() {
     return (
       <Layout>
@@ -130,7 +155,7 @@ export default class extends React.Component {
 
         <div className="container-top">
           <h1>Reservas</h1>
-          <Search />
+          <Search handleSearchUser={this.handleSearchUser} handleSearch={this.handleSearch} />
         </div>
 
         <div className="container-mid">
