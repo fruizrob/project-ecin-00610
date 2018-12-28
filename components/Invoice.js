@@ -3,7 +3,8 @@ import Button from './Button'
 
 export default class extends React.Component {
   render() {
-    const { costoAlojamiento, costoConsumo } = this.props
+    let costoAlojamiento = 0;
+    let costoConsumo = 0;
     return (
       <Modal className="modal-container">
         <h2>Costo<hr/></h2>
