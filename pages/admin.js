@@ -20,8 +20,6 @@ export default class extends React.Component {
   state = {
     // Data
     reservations: [],
-    staff: [],
-    floors: [],
 
     // Toggle modals
     modalAssignStaff: false,
@@ -41,6 +39,7 @@ export default class extends React.Component {
     credit_card: '',
     aditional: '',
     rut_employe: '',
+<<<<<<< HEAD
     curr_emp_rut: '',
   }
 
@@ -55,6 +54,11 @@ export default class extends React.Component {
       .catch(err => {
         console.log(err);
       })
+=======
+
+    // Search
+    user: ''
+>>>>>>> f33825bd5a3eebb806a49407793ab8f2c5e68c39
   }
 
   getReservationSelected = (cod) => {
@@ -88,29 +92,7 @@ export default class extends React.Component {
       .catch(e => console.log(e))
   }
 
-  // Obtener personal aseo
-  getStaff = () => {
-    fetch('http://localhost:3000/api/staff')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          staff: data.data
-        })
-      })
-      .catch(e => console.log(e))
-  }
 
-  // Obtener los pisos
-  getFloors = () => {
-    fetch('http://localhost:3000/api/floors')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          floors: data.data
-        })
-      })
-      .catch(e => console.log(e))
-  }
 
   componentDidMount = () => {
     this.getReservations()
@@ -155,6 +137,28 @@ export default class extends React.Component {
     })
   }
 
+  handleSearchUser = (ev) => {
+    if(ev.target.value == ''){
+      this.getReservations()
+    } else {
+      this.setState({
+        user: ev.target.value
+      })
+    }
+  }
+
+  handleSearch = () => {
+    let rut = this.state.user
+    fetch(`http://localhost:3000/api/reservations/user/${rut}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          reservations: data.data,
+        })
+      })
+      .catch(e => console.log(e))
+  }
+
   render() {
     return (
       <Layout>
@@ -171,7 +175,7 @@ export default class extends React.Component {
 
         <div className="container-top">
           <h1>Reservas</h1>
-          <Search />
+          <Search handleSearchUser={this.handleSearchUser} handleSearch={this.handleSearch} />
         </div>
 
         <div className="container-mid">
@@ -195,7 +199,7 @@ export default class extends React.Component {
         
         {
           this.state.modalPayReservation &&
-          <PayReservation onClose={this.handlePayReservation}/>
+          <PayReservation reservations={this.state.reservations} onClose={this.handlePayReservation}/>
         }
 
         {

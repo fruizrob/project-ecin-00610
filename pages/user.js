@@ -70,7 +70,6 @@ export default class extends React.Component {
           reservations: data.data, // Setear Reservas del usuario
         })
       })
-
   }
 
   handlePayment = () => {
