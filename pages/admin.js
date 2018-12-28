@@ -38,9 +38,23 @@ export default class extends React.Component {
     credit_card: '',
     aditional: '',
     rut_employe: '',
+    curr_emp_rut: '',
 
     // Search
     user: ''
+  }
+
+  getUser = () => {
+    fetch('http://localhost:3000/api/userInfo')
+      .then(resp => resp.json()) // Transform the data into json
+      .then(data => {
+        this.setState({
+          curr_emp_rut: data.user.rutpasaporte
+        }) 
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   getReservationSelected = (cod) => {
@@ -76,6 +90,7 @@ export default class extends React.Component {
 
   componentDidMount = () => {
     this.getReservations()
+    this.getUser()
   }
 
   handleAssignStaff = () => {
@@ -179,12 +194,12 @@ export default class extends React.Component {
 
         {
           this.state.modalInvoice &&
-          <Invoice costoAlojamiento={0} costoConsumo={0} onClose={this.handleInvoice} />
+          <Invoice codreserva={this.state.id} onClose={this.handleInvoice} />
         }
 
         {
           this.state.modalAddConsumption && 
-          <AddConsumption onClose={this.handleAddConsumption} />
+          <AddConsumption rut={this.state.curr_emp_rut} codreserva={this.state.id} onClose={this.handleAddConsumption} />
         }
         
 

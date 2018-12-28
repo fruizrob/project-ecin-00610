@@ -14,6 +14,7 @@ router.post('/payment', db.insertPayment)
 router.post('/payment/admin', db.insertAdminPayment)
 router.post('/assign', db.assignFloor)
 router.post('/room/edit', db.editRoom)
+router.post('/consumption', db.insertConsumption)
 
 // GET
 router.get('/roomTypes', db.getRoomTypes)
@@ -24,5 +25,8 @@ router.get('/reservations/user/:rut', db.getUserReservations)
 router.get('/reservations/:id', db.getReservationSelected)
 router.get('/staff', db.getAllStaff)
 router.get('/floors', db.getAllFloors)
+router.get('/consumptions', db.getConsumptions)
+router.get('/cost/:id', db.getConsumption)
+router.get('/days/:id', db.gettingDays)
 
 module.exports = router;

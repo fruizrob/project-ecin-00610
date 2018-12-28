@@ -323,5 +323,74 @@ module.exports = {
       .catch(err => {
         res.status(500).json({ error: err, message: 'Hubo un error' })
       })
+  },
+
+  // Obtener lista de cargos extra
+  getConsumptions: (req, res, next) => {
+    let query = ` 
+      SELECT *
+      FROM tipocargoextra 
+    `
+    return connection.any(query)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
+  // Inserta un cargo extra a una reserva
+  insertConsumption: (req, res, next) => {
+    let { consumption, rut, codreserva } = req.body
+
+    let query = ` 
+      INSERT INTO cargoextra(codreserva, fecha, hora, codtipocargoextra, rutempleado)
+      VALUES($1,NOW(),to_char(NOW(), 'hh:mi'),$2,$3)
+    `
+    return connection.any(query, [codreserva, consumption, rut])
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
+  // Obtiene lista de costos de cargos extra
+  getConsumption: (req, res, next) => {
+    const { id: codreserva } = req.params
+
+    let query = ` 
+      SELECT tipocargoextra.costo
+      FROM cargoextra
+        INNER JOIN tipocargoextra ON (cargoextra.codtipocargoextra = tipocargoextra.codtipocargoextra)
+      WHERE codreserva = $1
+    `
+    return connection.any(query, codreserva)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
+  },
+
+  // Obtiene la diferencia de dias entre inicio y fin
+  gettingDays: (req, res, next) => {
+    const { id: codreserva } = req.params
+
+    let query = ` 
+      SELECT (fechafin - fechainicio) as cantDay
+      FROM reserva
+      WHERE codreserva = $1
+    `
+    return connection.one(query, codreserva)
+      .then(data => {
+        res.status(200).json({ data })
+      })
+      .catch(err => {
+        res.status(500).json({ error: err, message: 'Hubo un error' })
+      })
   }
 };
